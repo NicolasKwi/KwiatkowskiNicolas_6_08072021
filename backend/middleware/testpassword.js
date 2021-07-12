@@ -6,9 +6,14 @@ module.exports = (req, res, next) => {
   try {
     if (!passwordSchema.validate(req.body.password)) {
       console.log(req.body.password);
-      res.statusMessage =
-        ".Le mot de passe n'est pas assez sécurisé : minimum de 8 caractères sans espaces et au moins 1 majuscule,1 minuscule et 2 chiffres.";
-      res.status(401).end();
+      // res.statusMessage =
+      res
+        .status(401)
+        .json({
+          error:
+            ".Le mot de passe n'est pas assez sécurisé : minimum de 8 caractères sans espaces et au moins 1 majuscule,1 minuscule et 2 chiffres.",
+        });
+      // res.status(401).end();
     } else {
       next();
     }

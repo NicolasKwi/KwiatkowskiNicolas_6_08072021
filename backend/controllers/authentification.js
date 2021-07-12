@@ -22,7 +22,15 @@ exports.signupUser = (req, res, next) => {
               pseudonyme: userCree.dataValues.email,
               userId: userCree.dataValues.id,
             })
-            .then(res.status(201).json({ message: "Utilisateur créé !" }))
+            .then((profil) => {
+              res.status(201).json({
+                profil: profil,
+                message: "Utilisateur créé !",
+                token: jwt.sign({ userId: profil.id }, process.env.TOKEN, {
+                  expiresIn: "24h",
+                }),
+              });
+            })
             .catch(() =>
               res
                 .status(500)
@@ -52,6 +60,7 @@ exports.loginUser = (req, res, next) => {
       if (!user) {
         return res.status(401).json({ error: "Utilisateur non trouvé !" });
       }
+      
       bcrypt
         .compare(req.body.password, user.password)
         .then((valid) => {
@@ -61,20 +70,19 @@ exports.loginUser = (req, res, next) => {
           models.profil
             .findOne({ where: { userId: user.id } })
             .then((profil) => {
-              if (!profil) {
+              if (!profil) {                
                 return res.status(401).json({ error: "profil non trouvé !" });
-              }
+              }              
               // renvoie le profil
               res
                 .status(200)
                 .json({
-                  profil,
+                  profil: profil,
                   token: jwt.sign({ userId: profil.id }, process.env.TOKEN, {
                     expiresIn: "24h",
                   }),
-                })
-                .catch((error) => res.status(500).json({ error }));
-            });
+                })                
+            }).catch((error) => res.status(500).json({ error }));
         })
         .catch((error) => res.status(500).json({ error }));
     })

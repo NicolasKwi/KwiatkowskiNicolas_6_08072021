@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-// require('dotenv').config()
+const Data = require("../../service/data");
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -19,9 +19,15 @@ const Login = () => {
       },
     })
       .then((res) => {
-        window.location = "/acceuil";
+        if (!res.data.profil || !res.data.token) {
+          loginError.innerHTML = "Profil non trouvé";
+        } else {
+          Data.profil = res.data.profil;
+          Data.token = res.data.token;
+         window.location = "/acceuil";
+        }
       })
-      .catch((err) => {
+      .catch((err) => {     
         if (err.response.data.error) {
           loginError.innerHTML = err.response.data.error;
           console.log(err.response.data.error);
