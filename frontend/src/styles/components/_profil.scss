@@ -1,0 +1,45 @@
+.profil {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  //   align-items: center;
+  margin: 10px;
+  border-radius: 10px;
+  background-color: $color-5;
+
+  border: 1px solid black;
+
+  .avatar {
+    display: flex;
+    align-items: center;
+  }
+  div {
+    margin: 5px auto;
+    width: 90%;
+  }
+  label {
+    margin: 5px;
+  }
+  input {
+    margin: 5px;
+    width: 100%;
+  }
+  img {
+    margin: 10px;
+    width: 70px;
+    border-radius: 10px;
+  }
+  button {
+    margin: 10px;
+    padding: 5px;
+  }
+  .button_modif {
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-end;
+    p {
+      margin: auto;
+    }
+  }
+}

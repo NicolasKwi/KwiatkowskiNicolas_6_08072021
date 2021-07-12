@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap");
+
+$font-1: "Poppins,sans-serif";
+
+$color-1: #61dafb;
+$color-2: #f1f1f1;
+$color-3: #282c34;
+$color-4: rgb(32, 35, 42);
+$color-5:rgb(216, 223, 215);
+$color-6:rgb(255, 212, 212);
+$color-7:rgb(151, 151, 151);
+$color-8: #6e8cf0;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  margin: 0.4rem auto;
+  max-width: 1296px;
+  min-width: 350px;
+  font-family: $font-1;
+  color: $color-3;
+  background-color: $color-2;
+  // border: 1px solid black;
+}
+li {
+  list-style-type: none;
+}
+a {
+  text-decoration: none;
+  color: $color-3;
+  cursor: pointer;
+}
+a:visited {
+  color: $color-3;
+}
+

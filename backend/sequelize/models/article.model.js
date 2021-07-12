@@ -22,6 +22,15 @@ module.exports = (sequelize) => {
         },
       },
     },
+    img: {
+      allowNull: true,
+      type: DataTypes.STRING,
+    },
+    lien: {
+      allowNull: true,
+      type: DataTypes.STRING,
+    },
+    nbrmessages: { allowNull: false, type: DataTypes.INTEGER, defaultValue: 0 },
     like: {
       allowNull: false,
       type: DataTypes.INTEGER,
@@ -31,14 +40,6 @@ module.exports = (sequelize) => {
       allowNull: false,
       type: DataTypes.INTEGER,
       defaultValue: 0,
-    },
-    img: {
-      allowNull: true,
-      type: DataTypes.STRING,
-    },
-    lien: {
-      allowNull: true,
-      type: DataTypes.STRING,
     },
   });
 };
