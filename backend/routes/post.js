@@ -7,13 +7,13 @@ const multer = require('../middleware/multer-config');
 const postCtrl = require("../controllers/post");
 
 // cree un post
-router.post("/", auth,multer, postCtrl.creeSauce);
+router.post("/", auth,multer, postCtrl.createPost);
 //met a jour le status j'aime de l'utilisateur sur un post
-router.post("/:id/like", auth, postCtrl.updateLikeSauce);
+router.post("/:id/like", auth, postCtrl.updateLikePost);
 
 //put
-// met à jour une sauce
-router.put("/:id", auth,multer, postCtrl.ModifySauce);
+// met à jour le post
+router.put("/:id", auth,multer, postCtrl.ModifyPost);
 
 //delete
 //supprime une sauce

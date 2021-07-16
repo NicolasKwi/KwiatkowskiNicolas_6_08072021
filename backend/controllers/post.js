@@ -11,7 +11,7 @@ getProfilById = async (profilId) => {
   });
 };
 
-exports.creeSauce = (req, res, next) => {
+exports.createPost = (req, res, next) => {
   const sauceObject = JSON.parse(req.body.sauce);
   delete sauceObject._id;
   const sauce = new Sauce({
@@ -31,7 +31,7 @@ exports.creeSauce = (req, res, next) => {
 };
 
 //met a jour le status j'aime de l'utilisateur sur une sauce
-exports.updateLikeSauce = (req, res, next) => {
+exports.updateLikePost = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
       //permet de stocker les index correspondant au uesrid dans les tableaux des like/dislike
@@ -90,46 +90,60 @@ exports.updateLikeSauce = (req, res, next) => {
 
 //put
 // met à jour une sauce
-exports.ModifySauce = (req, res, next) => {
-  let sauceObject = {};
+exports.ModifyPost = async (req, res, next) => {
+  let imageUrl = "";
 
-  if (req.file) {
-    // supprime l'ancienne image
-    Sauce.findOne({ _id: req.params.id }).then((sauce) => {
-      const filename = sauce.imageUrl.split("/images/")[1];
-      fs.unlinkSync(`images/${filename}`); //suppression synchrone
+  // supprime l'ancienne image
+  await models.article
+    .findOne({ where: { id: req.params.id } })
+    .then((post) => {
+      if (req.file) {
+        if (post.img && post.img != "") {
+          const filename = post.img.split("/images/")[1];
+          fs.unlinkSync(`images/${filename}`); //suppression synchrone
+        }
+        imageUrl = `${req.protocol}://${req.get("host")}/images/${
+          req.file.filename
+        }`;
+      } else {
+        if (req.body.img != "") imageUrl = post.img;
+      }
+      return post;
     });
-    sauceObject = {
-      ...JSON.parse(req.body.sauce),
-      imageUrl: `${req.protocol}://${req.get("host")}/images/${
-        req.file.filename
-      }`,
-    };
-  } else {
-    sauceObject = { ...req.body };
-  }
 
-  Sauce.updateOne(
-    { _id: req.params.id },
-    { ...sauceObject, _id: req.params.id }
-  )
-    .then(() => res.status(200).json({ message: "Sauce modifié !" }))
+  models.article
+    .update(
+      {
+        content: req.body.content,
+        lien: req.body.lien,
+        img: imageUrl,
+      },
+      {
+        where: { id: req.params.id },
+      }
+    )
+    .then(() => res.status(200).json({ message: "Article modifié !" }))
     .catch((error) => res.status(400).json({ error }));
 };
 
 //delete
 //supprime une sauce
-exports.deletePost = (req, res, next) => {
-  Sauce.findOne({ _id: req.params.id })
-    .then((sauce) => {
-      const filename = sauce.imageUrl.split("/images/")[1];
-      fs.unlink(`images/${filename}`, () => {
-        Sauce.deleteOne({ _id: req.params.id })
-          .then(() => res.status(200).json({ message: "Sauce supprimé !" }))
-          .catch((error) => res.status(400).json({ error }));
-      });
-    })
-    .catch((error) => res.status(500).json({ error }));
+exports.deletePost = async (req, res, next) => {
+  // supprime l'image si elle existe
+  await models.article
+    .findOne({ where: { id: req.params.id } })
+    .then((article) => {
+      if (article && article.img != "") {
+        console.log(article.img);
+        const filename = article.img.split("/images/")[1];
+        fs.unlinkSync(`images/${filename}`);
+      }
+    });
+
+  models.article
+    .destroy({ where: { id: req.params.id } })
+    .then(() => res.status(200).json({ message: "Article supprimé !" }))
+    .catch((error) => res.status(400).json({ error }));
 };
 
 //get
@@ -171,12 +185,11 @@ exports.getAllPost = (req, res, next) => {
             like: userLike,
           });
         }
-        if (listArticles.lenght>0 ){
-           res.status(200).json({ articles: listArticles });
-        }else{
+        if (listArticles.length > 0) {
+          res.status(200).json({ articles: listArticles });
+        } else {
           res.status(200).json({ message: "Aucun article trouvé" });
         }
-       
       } else {
         res.status(200).json({ message: "Aucun article trouvé" });
       }
@@ -198,9 +211,18 @@ exports.getOnePost = (req, res, next) => {
           attributes: ["id", "pseudonyme", "avatar", "fonction"],
           where: { id: article.profilId },
         }
-          .then((profil) =>
-            res.status(200).json({ article: article, profil: profil })
-          )
+          .then((profil) => {
+            models.like
+              .findOne({
+                attributes: ["id", "likestate", "profilId", "articleId"],
+                where: { articleId: articleTemp.id, profilId: profil.id },
+              })
+              .then((like) => {
+                res
+                  .status(200)
+                  .json({ article: article, profil: profil, like: like });
+              });
+          })
           .catch((error) => res.status(404).json({ error }))
       );
     })

@@ -3,12 +3,27 @@ function applyExtraSetup(sequelize) {
 
   user.hasOne(profil);
 
-  profil.hasMany(article);
-  profil.hasMany(message);
-  profil.hasMany(like);
+  profil.hasMany(article, {
+    onDelete: "cascade",
+    hooks: true,
+  });
+  profil.hasMany(message, { 
+    onDelete: 'cascade',
+    hooks: true, 
+  });
+  profil.hasMany(like, { 
+    onDelete: 'cascade',
+    hooks: true, 
+  });
 
-  article.hasMany(message);
-  article.hasMany(like);
+  article.hasMany(message, { 
+    onDelete: 'cascade',
+    hooks: true, 
+  });
+  article.hasMany(like, { 
+    onDelete: 'cascade',
+    hooks: true, 
+  });
 }
 
 module.exports = { applyExtraSetup };

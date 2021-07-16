@@ -1,6 +1,6 @@
 import React, { useState , useContext } from "react";
 import axios from "axios";
-
+import {setProfilUser} from "../utils";
 const Data = require("../../service/data");
 
 const Signup = () => {
@@ -25,7 +25,7 @@ const Signup = () => {
           signupError.innerHTML = "Profil non trouvé";
         } else {
           //memorise le profil
-          localStorage.setItem('profil',JSON.stringify(res.data.profil));
+          setProfilUser(res.data.profil);        
           window.location = "/acceuil";
         }
       })

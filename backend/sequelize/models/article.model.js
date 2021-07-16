@@ -15,6 +15,7 @@ module.exports = (sequelize) => {
     content: {
       allowNull: false,
       type: DataTypes.STRING(1000),
+      defaultValue: "",
       validate: {
         len: {
           args: [[0, 1000]],
@@ -25,10 +26,12 @@ module.exports = (sequelize) => {
     img: {
       allowNull: true,
       type: DataTypes.STRING,
+      defaultValue: "",
     },
     lien: {
       allowNull: true,
       type: DataTypes.STRING,
+      defaultValue: "",
     },
     nbrmessages: { allowNull: false, type: DataTypes.INTEGER, defaultValue: 0 },
     like: {

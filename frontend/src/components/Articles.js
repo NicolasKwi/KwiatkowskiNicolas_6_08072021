@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-
+import { setProfilUser, getProfilUser } from "../components/utils";
 import Article from "./Article";
 
 const Data = require("../service/data");
@@ -9,12 +9,12 @@ const Articles = () => {
   const [aucunArticle, setAucunArticle] = useState(true);
   const [messAucun, setMessAucun] = useState("");
   const [listArticles, setListArticles] = useState([]);
-  const profilUser = JSON.parse(localStorage.getItem("profil"));
+  const profilUser = getProfilUser();
 
   useEffect(() => {
     // test si on a le profil et le token
     if (!profilUser || !profilUser.id || !profilUser.token) {
-      localStorage.setItem("profil", "");
+      setProfilUser("");
       //retour a la page connection
       window.location = "/";
     }
@@ -50,7 +50,9 @@ const Articles = () => {
         <p>{messAucun}</p>
       ) : (
         <ul>
-         { listArticles.map((post) => <Article post={post} key={`article_${post.article.id}`}/>)}
+          {listArticles.map((post) => (
+            <Article post={post} key={`article_${post.article.id}`} />
+          ))}
         </ul>
       )}
     </div>
