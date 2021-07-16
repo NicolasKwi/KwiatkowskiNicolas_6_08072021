@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
-const Data = require("../../service/data");
+// const Data = require("../../service/data");
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -19,20 +19,20 @@ const Login = () => {
       },
     })
       .then((res) => {
-        if (!res.data.profil || !res.data.token) {
+        if (!res.data.profil || !res.data.profil.token) {
           loginError.innerHTML = "Profil non trouvé";
         } else {
-          Data.profil = res.data.profil;
-          Data.token = res.data.token;
-         window.location = "/acceuil";
+      //memorise le profil
+          localStorage.setItem('profil',JSON.stringify(res.data.profil));
+          window.location = "/acceuil";
         }
       })
-      .catch((err) => {     
-        if (err.response.data.error) {
+      .catch((err) => {
+        if (err.response) {
           loginError.innerHTML = err.response.data.error;
           console.log(err.response.data.error);
         } else {
-          console.log(err);
+          console.log(err.message);
         }
       });
   };

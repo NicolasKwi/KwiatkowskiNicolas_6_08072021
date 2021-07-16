@@ -17,12 +17,12 @@ router.put("/:id", auth,multer, postCtrl.ModifySauce);
 
 //delete
 //supprime une sauce
-router.delete("/:id", auth, postCtrl.deleteSauce);
+router.delete("/:id", auth, postCtrl.deletePost);
 
 //get
 //renvoie toutes les sauces
-router.get("/", auth, postCtrl.getAllSauce);
+router.get("/", auth, postCtrl.getAllPost);
 //renvoie la sauces avec l'id
-router.get("/:id", auth, postCtrl.getOneSauce);
+router.get("/:id", auth, postCtrl.getOnePost);
 
 module.exports = router;

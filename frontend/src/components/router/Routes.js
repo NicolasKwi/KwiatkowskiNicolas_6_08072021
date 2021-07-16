@@ -3,16 +3,22 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
 import Connection from "../../pages/Connection";
 import Home from "../../pages/Home";
-import NotFound from "../../pages/NotFound";
+// import NotFound from "../../pages/NotFound";
 import Utilisateur from "../../pages/Utilisateur";
 
 const Routes = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/" exact component={Connection} />
-        <Route path="/acceuil" exact component={Home} />
-        <Route path="/utilisateur" exact component={Utilisateur} />
+        <Route path="/" exact>
+          <Connection />
+        </Route>
+        <Route path="/acceuil" exact>
+          <Home />
+        </Route>
+        <Route path="/utilisateur" exact>
+          <Utilisateur />
+        </Route>
         <Redirect to="/" />
         {/* <Route component={NotFound} /> */}
       </Switch>

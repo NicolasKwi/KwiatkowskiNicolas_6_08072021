@@ -4,7 +4,7 @@ import Navigation from "../components/Navigation"
 import Profil from "../components/Profil";
 import UserArticles from "../components/UserArticles"
 
-const Data =require('../service/data');
+
 
 const Utilisateur = () => { 
   // console.log(Data);

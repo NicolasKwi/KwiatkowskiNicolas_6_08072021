@@ -1,9 +1,16 @@
 //models sequelize
 const { models } = require("../sequelize/sequelize");
-//gestion des fichier 
+//gestion des fichier
 const fs = require("fs");
 //post
 // cree une sauce
+
+getProfilById = async (profilId) => {
+  models.profil.findOne({ where: { id: profilId } }).then((profil) => {
+    return profil.dataValues;
+  });
+};
+
 exports.creeSauce = (req, res, next) => {
   const sauceObject = JSON.parse(req.body.sauce);
   delete sauceObject._id;
@@ -87,7 +94,7 @@ exports.ModifySauce = (req, res, next) => {
   let sauceObject = {};
 
   if (req.file) {
-     // supprime l'ancienne image
+    // supprime l'ancienne image
     Sauce.findOne({ _id: req.params.id }).then((sauce) => {
       const filename = sauce.imageUrl.split("/images/")[1];
       fs.unlinkSync(`images/${filename}`); //suppression synchrone
@@ -97,9 +104,9 @@ exports.ModifySauce = (req, res, next) => {
       imageUrl: `${req.protocol}://${req.get("host")}/images/${
         req.file.filename
       }`,
-    };   
+    };
   } else {
-    sauceObject = { ...req.body };   
+    sauceObject = { ...req.body };
   }
 
   Sauce.updateOne(
@@ -112,7 +119,7 @@ exports.ModifySauce = (req, res, next) => {
 
 //delete
 //supprime une sauce
-exports.deleteSauce = (req, res, next) => {
+exports.deletePost = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
       const filename = sauce.imageUrl.split("/images/")[1];
@@ -127,14 +134,75 @@ exports.deleteSauce = (req, res, next) => {
 
 //get
 //renvoie toutes les sauces
-exports.getAllSauce = (req, res, next) => {
-  Sauce.find()
-    .then((sauces) => res.status(200).json(sauces))
-    .catch((error) => res.status(400).json({ error }));
+exports.getAllPost = (req, res, next) => {
+  //tableau des articles +profil
+
+  models.article
+    .findAll()
+    .then(async (articles) => {
+      if (articles) {
+        let listArticles = [];
+        let userLike = {};
+        for (const articleTemp of articles) {
+          userLike = { likestate: 0 };
+          let profilArticle = await models.profil
+            .findOne({
+              attributes: ["id", "pseudonyme", "avatar", "fonction"],
+              where: { id: articleTemp.profilId },
+            })
+            .then(async (profil) => {
+              let userLikeTest = await models.like
+                .findOne({
+                  attributes: ["id", "likestate", "profilId", "articleId"],
+                  where: { articleId: articleTemp.id, profilId: profil.id },
+                })
+                .then((like) => {
+                  return like;
+                });
+              userLikeTest
+                ? (userLike = userLikeTest)
+                : (userLike = { likestate: 0 });
+
+              return profil;
+            });
+          listArticles.push({
+            article: articleTemp,
+            profil: profilArticle,
+            like: userLike,
+          });
+        }
+        if (listArticles.lenght>0 ){
+           res.status(200).json({ articles: listArticles });
+        }else{
+          res.status(200).json({ message: "Aucun article trouvé" });
+        }
+       
+      } else {
+        res.status(200).json({ message: "Aucun article trouvé" });
+      }
+    })
+    .catch((error) => {
+      console.log("erreur 400");
+      res.status(400).json({ error });
+    });
 };
-//renvoie la sauces avec l'id
-exports.getOneSauce = (req, res, next) => {
-  Sauce.findOne({ _id: req.params.id })
-    .then((sauce) => res.status(200).json(sauce))
+//renvoie l'article avec l'id
+exports.getOnePost = (req, res, next) => {
+  models.article
+    .findOne({
+      where: { id: articleTemp.profilId },
+    })
+    .then((article) => {
+      models.profil.findOne(
+        {
+          attributes: ["id", "pseudonyme", "avatar", "fonction"],
+          where: { id: article.profilId },
+        }
+          .then((profil) =>
+            res.status(200).json({ article: article, profil: profil })
+          )
+          .catch((error) => res.status(404).json({ error }))
+      );
+    })
     .catch((error) => res.status(404).json({ error }));
 };

@@ -6,18 +6,24 @@
     margin: 5px;
     padding: 10px;
     position: relative;
+    text-decoration: none;
+    color: $color-3;
+    cursor: pointer;
+  }
+  a:visited {
+    color: $color-3;
   }
   .nav-active {
-      &::after{
-          content: "";
-          width: 85%;
-          height: 5px;
-          background: $color-1;
-          position: absolute;
-          bottom: 1px;
-          left: 50%;
-          transform: translateX(-50%);
-          border-radius: 15px;
-      }
+    &::after {
+      content: "";
+      width: 85%;
+      height: 5px;
+      background: $color-1;
+      position: absolute;
+      bottom: 1px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 15px;
+    }
   }
 }

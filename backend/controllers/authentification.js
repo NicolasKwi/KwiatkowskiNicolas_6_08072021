@@ -23,12 +23,16 @@ exports.signupUser = (req, res, next) => {
               userId: userCree.dataValues.id,
             })
             .then((profil) => {
+              const profilValue={...profil.dataValues};
+              delete profilValue.userId;
               res.status(201).json({
-                profil: profil,
+                profil: {
+                  ...profil.dataValues,
+                  token: jwt.sign({ profilId: profil.id }, process.env.TOKEN, {
+                    expiresIn: "24h",
+                  }),
+                },
                 message: "Utilisateur créé !",
-                token: jwt.sign({ userId: profil.id }, process.env.TOKEN, {
-                  expiresIn: "24h",
-                }),
               });
             })
             .catch(() =>
@@ -60,7 +64,7 @@ exports.loginUser = (req, res, next) => {
       if (!user) {
         return res.status(401).json({ error: "Utilisateur non trouvé !" });
       }
-      
+
       bcrypt
         .compare(req.body.password, user.password)
         .then((valid) => {
@@ -70,21 +74,26 @@ exports.loginUser = (req, res, next) => {
           models.profil
             .findOne({ where: { userId: user.id } })
             .then((profil) => {
-              if (!profil) {                
+              if (!profil) {
                 return res.status(401).json({ error: "profil non trouvé !" });
-              }              
+              }
               // renvoie le profil
-              res
-                .status(200)
-                .json({
-                  profil: profil,
-                  token: jwt.sign({ userId: profil.id }, process.env.TOKEN, {
+             const profilValue={...profil.dataValues};
+             delete profilValue.userId;
+             
+              res.status(200).json({
+                profil: {
+                  ...profilValue,
+                  token: jwt.sign({ profilId: profil.id }, process.env.TOKEN, {
                     expiresIn: "24h",
                   }),
-                })                
-            }).catch((error) => res.status(500).json({ error }));
+                },
+              });
+            })
+            .catch((error) => res.status(500).json({ error }));
         })
         .catch((error) => res.status(500).json({ error }));
     })
     .catch((error) => res.status(500).json({ error }));
 };
+exports.testToken = (req, res, next) => {};

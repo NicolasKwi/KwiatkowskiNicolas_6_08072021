@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Routes from "./components/router/Routes";
 
 
 function App() { 
-  return (
-    <div>
-      <Routes />
-    </div>
+  return (  
+    <React.StrictMode>
+        <Routes />  
+    </React.StrictMode>
+     
   );
 }
 
