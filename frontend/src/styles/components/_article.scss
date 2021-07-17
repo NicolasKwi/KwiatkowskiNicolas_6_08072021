@@ -1,20 +1,28 @@
 .article {
-  border: 1px solid black;
   margin: 25px;
   border-radius: 10px;
   background-color: white;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  box-shadow: 3px 3px 1px rgba(51, 51, 51, 0.418);
 
-  margin: 20px;
+  .article_image {
+    min-height: 100px;
+    max-height: 300px;
+    width: 90%;
+    object-fit: scale-down;
+    margin: 20px;
+   
+  }
+
   .edition_article {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     margin: 10px;
 
-    .textarea {
+    textarea {
       resize: none;
       margin-bottom: 10px;
     }
@@ -22,14 +30,25 @@
   .affichage_article {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     margin: 10px;
+  }
+  .icon_boutton_article {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin: 5px;
+    padding: 5px;    
+   
     img {
-      min-height: 100px;
-      max-height: 300px;
-      width: 90%;
-      object-fit: scale-down;
-      margin: 10px;
+      width: 35px;
+      margin: 5px;  
+      padding: 5px;    
+      background-color: $color-5;
+      border-radius: 25px;
+      cursor: pointer;
+    }
+    img:hover{
+      background-color:rgb(255, 237, 191);
     }
   }
 }

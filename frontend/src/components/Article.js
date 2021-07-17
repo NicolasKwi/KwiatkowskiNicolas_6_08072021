@@ -76,14 +76,14 @@ const Article = ({ post }) => {
   return (
     <li className="article">
       <div>
-        <EnteteCard post={post} />
-        {post.article.profilId === profilUser.id && (
-          <div>
-            <span onClick={() => setIsEdit(true)}>modifier</span>
-            <span onClick={() => handlePostDelete()}>Supprimer</span>
+        <EnteteCard post={post} />       
+      </div>
+      {post.article.profilId === profilUser.id && (
+          <div  className="icon_boutton_article" >
+            <img src="./img/icons/edit.svg" title='Editer' onClick={() => setIsEdit(!isEdit)}/>
+            <img src="./img/icons/trash.svg" title='Supprimer' onClick={() => handlePostDelete()}/>
           </div>
         )}
-      </div>
       {isEdit ? (
         <div className='edition_article'>
           <textarea
@@ -91,7 +91,7 @@ const Article = ({ post }) => {
             onChange={(e) => setPostContentmodif(e.target.value)}
           ></textarea>
           <div>
-            {postimgmodif && <img src={postimgmodif} alt="" />}
+            {postimgmodif && <img className="article_image" src={postimgmodif} alt="Séléction de l'image" />}
             <input
               type="file"
               id="image"
@@ -130,10 +130,11 @@ const Article = ({ post }) => {
       ) : (
         <div className="affichage_article">
           <p>{postContent}</p>
-          {postimg && <img src={postimg} alt="" />}
+          {postimg && <img  className="article_image" src={postimg} alt="Image de l'article" />}
           {postlien && <a href={postlien}>{postlien}</a>}
         </div>
       )}
+       
       <PiedCard post={post} />
     </li>
   );

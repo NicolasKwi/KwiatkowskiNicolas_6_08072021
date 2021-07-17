@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 
 const PiedCard = ({ post }) => {
+  const [etatLike,setEtatLike]=useState(post.like.likestate)
+  const [affichageMessage,setAffichageMessage] =useState(false);
+
   return (
-    <div style={{ display: "flex", margin: "10px" }}>
-      <p style={post.like.likestate === 1 ? { color: "blue" } : {}}>
-        like {post.article.like}{" "}
-      </p>{" "}
-      <p style={post.like.likestate === -1 ? { color: "red" } : {}}>
-        {" "}
-        dislike {post.article.dislike}{" "}
-      </p>
-      <p> Nbre commentaires {post.article.nbrmessages}</p>
+    <div className="piedcard">
+      <div className="piedcard_info">
+        <div>
+          {etatLike === 0 ? (
+            <img src="./img/icons/heart.svg" title="Like" alt="liker" />
+          ) : (
+            <img
+              src="./img/icons/heart-filled.svg"
+              title="Like"
+              alt="Non liker"
+            />
+          )}
+          <p>{post.article.like} like</p>
+        </div>
+        <div className="commentaire">
+          <img src="./img/icons/message2.svg" title="Commentaires" alt="Commentaires" />
+          <p>{post.article.nbrmessages} </p>
+        </div>
+      </div>
     </div>
   );
 };

@@ -8,8 +8,10 @@ const CreeArticle = () => {
   const [postContent, setPostContent] = useState('');
   const [postImg, setPostImg] = useState('');
   const [postLien, setPostLien] = useState('');
-
   const [file, setFile] = useState();
+
+  const [erreurTrouver, setErreurTrouver] = useState();
+
 
   const handlePicture = (e) => {
     setPostImg(URL.createObjectURL(e.target.files[0]));
@@ -46,7 +48,7 @@ const CreeArticle = () => {
           alert(error);
         });
     } else {
-      console.log('pas de contenu');
+      setErreurTrouver('Veuillez rentrer un message, une image ou un lien')
       //affichage pour dire qu'il font un contenu
     }
   };
@@ -105,6 +107,7 @@ const CreeArticle = () => {
         />
       </div>
       <div className="cree_post_confirme">
+        <p>{erreurTrouver}</p>
         <button onClick={() => handlePost()}>Enregistrer</button>
         <button onClick={() => {}}>Annuler</button>
       </div>
