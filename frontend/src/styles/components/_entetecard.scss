@@ -1,0 +1,56 @@
+.entetecard {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  margin: 0px;
+  padding: 5px;
+  border-radius: 10px 10px 0px 0px;
+
+  font-size: small;
+  background-color: rgb(235, 235, 235); 
+
+  img {
+    // min-height: 25px;
+    height: 50px;
+    // width: 90%;
+    object-fit: scale-down;
+    margin: 5px;
+  }
+  .identite {
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 5px;
+    .identite_psedo {
+      color: black;
+      font-weight: bold;
+    }
+    .identite_fonction {
+      color: grey;
+      font-weight: lighter;
+      font-style: italic;
+    }
+  }
+  .entete_espace {
+    flex-grow: 1;
+  }
+  .horaire_post {
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    padding: 5px;
+    .datepost {
+      font-weight: lighter;
+      font-style: italic;
+    }
+    .modifipost {
+      color: grey;
+      font-weight: lighter;
+      font-style: italic;
+    }
+  }
+}

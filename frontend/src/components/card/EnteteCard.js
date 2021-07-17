@@ -3,17 +3,27 @@ import { dateParser } from "../utils";
 
 const EnteteCard = ({ post }) => {
   return (
-    <div>
+    <div className="entetecard">
       {post.profil.avatar ? (
-        <img src="post.profil.avatar" alt="photo" />
+        <img src="post.profil.avatar" alt="photo avatar" />
       ) : (
-        <img src="./img/random-user.png" alt="photo" />
+        <img src="./img/random-user.png" alt="photo avatar" />
       )}
-      <h3>article de {post.profil.pseudonyme}</h3>
-      <h2>créé le {dateParser(post.article.createdAt)}</h2>
-      {post.article.updatedAt != post.article.createdAt && (
-        <h2>modifié le {dateParser(post.article.updatedAt)}</h2>
-      )}
+      <div className="identite">
+        <p className="identite_psedo">{post.profil.pseudonyme}</p>
+        <p className="identite_fonction">{post.profil.fonction}</p>
+      </div>
+      <div className="entete_espace"> </div>
+      <div className="horaire_post">
+        <p className="datepost">
+          Posté le {dateParser(post.article.createdAt)}
+        </p>
+        {post.article.updatedAt != post.article.createdAt && (
+          <p className="modifipost">
+            modifié le {dateParser(post.article.updatedAt)}
+          </p>
+        )}
+      </div>
     </div>
   );
 };

@@ -1,6 +1,35 @@
-.article{
-    border: 1px solid black;
-   margin: 25px;
-   padding: 10px;
-   background-color: white;
+.article {
+  border: 1px solid black;
+  margin: 25px;
+  border-radius: 10px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+
+  margin: 20px;
+  .edition_article {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 10px;
+
+    .textarea {
+      resize: none;
+      margin-bottom: 10px;
+    }
+  }
+  .affichage_article {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 10px;
+    img {
+      min-height: 100px;
+      max-height: 300px;
+      width: 90%;
+      object-fit: scale-down;
+      margin: 10px;
+    }
+  }
 }

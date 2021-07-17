@@ -4,7 +4,6 @@ import EnteteCard from "./card/EnteteCard";
 import PiedCard from "./card/PiedCard";
 import { dateParser, getProfilUser } from "./utils";
 
-
 const Article = ({ post }) => {
   const profilUser = getProfilUser();
 
@@ -86,7 +85,7 @@ const Article = ({ post }) => {
         )}
       </div>
       {isEdit ? (
-        <div>
+        <div className='edition_article'>
           <textarea
             defaultValue={postContentmodif}
             onChange={(e) => setPostContentmodif(e.target.value)}
@@ -129,13 +128,13 @@ const Article = ({ post }) => {
           </div>
         </div>
       ) : (
-        <div>
+        <div className="affichage_article">
           <p>{postContent}</p>
           {postimg && <img src={postimg} alt="" />}
           {postlien && <a href={postlien}>{postlien}</a>}
         </div>
       )}
-     <PiedCard post={post} />
+      <PiedCard post={post} />
     </li>
   );
 };
