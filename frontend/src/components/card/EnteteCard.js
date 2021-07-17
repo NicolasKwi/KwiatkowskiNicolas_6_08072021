@@ -5,9 +5,9 @@ const EnteteCard = ({ post }) => {
   return (
     <div className="entetecard">
       {post.profil.avatar ? (
-        <img src="post.profil.avatar" alt="photo avatar" />
+        <img src="post.profil.avatar" alt="Avatar" />
       ) : (
-        <img src="./img/random-user.png" alt="photo avatar" />
+        <img src="./img/random-user.png" alt="Avatar par defaut" />
       )}
       <div className="identite">
         <p className="identite_psedo">{post.profil.pseudonyme}</p>
@@ -18,7 +18,7 @@ const EnteteCard = ({ post }) => {
         <p className="datepost">
           Posté le {dateParser(post.article.createdAt)}
         </p>
-        {post.article.updatedAt != post.article.createdAt && (
+        {post.article.updatedAt !== post.article.createdAt && (
           <p className="modifipost">
             modifié le {dateParser(post.article.updatedAt)}
           </p>

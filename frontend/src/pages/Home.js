@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import Navigation from "../components/Navigation";
 import Logo from "../components/Logo";
 import Articles from "../components/Articles"
 import CreeArticle from "../components/CreeArticle";
-// import { ProfilContext } from "../components/AppContext";
+
 
 const Home = () => {
 //   const {profilUser, setProfilUser} = useContext(ProfilContext);

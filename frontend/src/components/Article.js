@@ -1,17 +1,17 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import EnteteCard from "./card/EnteteCard";
 import PiedCard from "./card/PiedCard";
-import { dateParser, getProfilUser } from "./utils";
+import {getProfilUser } from "./utils";
 
 const Article = ({ post }) => {
   const profilUser = getProfilUser();
 
   // const [allowModifi, setAllowModifi] = useState(false);
   // let allowModifi = false;
-  const [postContent, setPostContent] = useState(post.article.content);
-  const [postimg, setPostimg] = useState(post.article.img);
-  const [postlien, setPostlien] = useState(post.article.lien);
+  const [postContent] = useState(post.article.content);
+  const [postimg] = useState(post.article.img);
+  const [postlien] = useState(post.article.lien);
 
   const [postContentmodif, setPostContentmodif] = useState(
     post.article.content

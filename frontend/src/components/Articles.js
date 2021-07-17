@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { setProfilUser, getProfilUser } from "../components/utils";
 import Article from "./Article";
-
-const Data = require("../service/data");
 
 const Articles = () => {
   const [aucunArticle, setAucunArticle] = useState(true);
@@ -34,8 +32,7 @@ const Articles = () => {
         } else {
           //il y as des articles
           setAucunArticle(false);
-          setListArticles(res.data.articles);
-          console.log(res.data.articles);
+          setListArticles(res.data.articles);      
         }
       })
       .catch((err) => {

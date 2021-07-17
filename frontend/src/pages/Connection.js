@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Login from "../components/log/Login";
 import Signup from "../components/log/Signup";
-import Logo from "../components/Logo";
+
 
 const Connection = () => {
   const [loginModal, setLoginModal] = useState(true);

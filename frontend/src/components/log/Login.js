@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import {setProfilUser} from "../utils";
-// const Data = require("../../service/data");
+
 
 const Login = () => {
   const [email, setEmail] = useState("");

@@ -5,28 +5,27 @@ const fs = require("fs");
 //post
 // cree une sauce
 
-getProfilById = async (profilId) => {
-  models.profil.findOne({ where: { id: profilId } }).then((profil) => {
-    return profil.dataValues;
-  });
-};
+// getProfilById = async (profilId) => {
+//   models.profil.findOne({ where: { id: profilId } }).then((profil) => {
+//     return profil.dataValues;
+//   });
+// };
 
 exports.createPost = (req, res, next) => {
-  const sauceObject = JSON.parse(req.body.sauce);
-  delete sauceObject._id;
-  const sauce = new Sauce({
-    ...sauceObject,
-    imageUrl: `${req.protocol}://${req.get("host")}/images/${
+  let imageUrl = "";
+  if (req.file)
+    imageUrl = `${req.protocol}://${req.get("host")}/images/${
       req.file.filename
-    }`,
-    likes: 0,
-    dislikes: 0,
-    usersLiked: [],
-    usersDisliked: [],
-  });
-  sauce
-    .save()
-    .then(() => res.status(201).json({ message: "Sauce enregistré !" }))
+    }`;
+
+  models.article
+    .create({
+      profilId: req.body.profilId,
+      content: req.body.content,
+      img: imageUrl,
+      lien: req.body.lien,
+    })
+    .then(() => res.status(201).json({ message: "Article enregistré !" }))
     .catch((error) => res.status(400).json({ error }));
 };
 

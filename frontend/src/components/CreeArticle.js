@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { setProfilUser, getProfilUser } from "../components/utils";
+import axios from "axios";
 
 const CreeArticle = () => {
-  const [postContent, setPostContent] = useState();
-  const [postImg, setPostImg] = useState();
-  const [postLien, setPostLien] = useState();
+  const profilUser = getProfilUser();
+
+  const [postContent, setPostContent] = useState('');
+  const [postImg, setPostImg] = useState('');
+  const [postLien, setPostLien] = useState('');
 
   const [file, setFile] = useState();
 
@@ -11,6 +15,50 @@ const CreeArticle = () => {
     setPostImg(URL.createObjectURL(e.target.files[0]));
     setFile(e.target.files[0]);
   };
+  const handlePost = () => {
+    if (
+      postContent.trim() !== "" ||
+      postImg.trim() !== "" ||
+      postLien.trim() !== ""
+    ) {
+      const data = new FormData();
+      data.append("profilId", profilUser.id);
+      data.append("content", postContent);
+      data.append("lien", postLien);
+      data.append("img", postImg);
+      if (file) data.append("image", file);
+      //api update article
+      axios({
+        method: "post",
+        url: `${process.env.REACT_APP_API_URL}/api/post/`,
+        data: data,
+        headers: {
+          Authorization: `bearer ${profilUser.token}`,
+        },
+      })
+        .then(() => {
+          setPostContent("");
+          setPostImg("");
+          setPostLien("");  
+          window.location='/acceuil'       
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    } else {
+      console.log('pas de contenu');
+      //affichage pour dire qu'il font un contenu
+    }
+  };
+
+  useEffect(() => {
+    // test si on a le profil et le token
+    if (!profilUser || !profilUser.id || !profilUser.token) {
+      setProfilUser("");
+      //retour a la page connection
+      window.location = "/";
+    }
+  }, []);
 
   return (
     <div className="creearticle">
@@ -20,9 +68,11 @@ const CreeArticle = () => {
         onChange={(e) => setPostContent(e.target.value)}
       ></textarea>
       <div className="cree_postimage">
-        {postImg && <img src={postImg} alt="Image choisi" />}
+        {postImg && <img src={postImg} alt="affichage de la phot de la selection" />}
         <div className="postimage_bouttons">
-          <label classname="label_inputfile" htmlFor="imagecree">Choissez une image :</label>
+          <label className="label_inputfile" htmlFor="imagecree">
+            Choissez une image :
+          </label>
           <input
             type="file"
             id="imagecree"
@@ -51,14 +101,13 @@ const CreeArticle = () => {
           id="creatpostlink"
           onChange={(e) => {
             setPostLien(e.target.value);
-          }}
-          value={postLien}
+          }}        
         />
       </div>
       <div className="cree_post_confirme">
-            <button onClick={() => {}}>Enregistrer</button>
-            <button onClick={() => {}}>Annuler</button>
-          </div>
+        <button onClick={() => handlePost()}>Enregistrer</button>
+        <button onClick={() => {}}>Annuler</button>
+      </div>
     </div>
   );
 };
