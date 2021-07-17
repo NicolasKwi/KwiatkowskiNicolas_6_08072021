@@ -1,9 +1,8 @@
 import React from "react";
-import { dateParser } from "../utils";
 
-const EnteteCard = ({ post }) => {
+const MessageEntete = ({ message }) => {
   return (
-    <div className="entetecard">
+    <div className="messageentete">
       {post.profil.avatar ? (
         <img src={post.profil.avatar} alt="Avatar" />
       ) : (
@@ -14,18 +13,13 @@ const EnteteCard = ({ post }) => {
         <p className="identite_fonction">{post.profil.fonction}</p>
       </div>
       <div className="entete_espace"> </div>
-      <div className="horaire_post">
-        <p className="datepost">
+      <div className="horaire_message">
+        <p className="datemessage">
           Posté le {dateParser(post.article.createdAt)}
         </p>
-        {post.article.updatedAt !== post.article.createdAt && (
-          <p className="modifipost">
-            modifié le {dateParser(post.article.updatedAt)}
-          </p>
-        )}
       </div>
     </div>
   );
 };
 
-export default EnteteCard;
+export default MessageEntete;

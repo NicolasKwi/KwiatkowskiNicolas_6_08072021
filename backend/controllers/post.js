@@ -133,7 +133,6 @@ exports.deletePost = async (req, res, next) => {
     .findOne({ where: { id: req.params.id } })
     .then((article) => {
       if (article && article.img != "") {
-        console.log(article.img);
         const filename = article.img.split("/images/")[1];
         fs.unlinkSync(`images/${filename}`);
       }
@@ -226,4 +225,56 @@ exports.getOnePost = (req, res, next) => {
       );
     })
     .catch((error) => res.status(404).json({ error }));
+};
+//renvoie la liste des messages pour un article
+exports.getAllMessagesForOnePost = (req, res, next) => {  
+  models.message
+    .findAll({
+      where: { articleId: req.params.id },
+    })
+    .then(async (messages) => {
+      let listMessages = [];
+      if (messages) {
+        for (const messagesTemp of messages) {
+          let profilRecup = await models.profil
+            .findOne({
+              attributes: ["id", "pseudonyme", "avatar", "fonction"],
+              where: { id: messagesTemp.profilId },
+            })
+            .then((profil) => {            
+              return profil;
+            });
+          if (profilRecup) {
+            listMessages.push({ message: messagesTemp, profil: profilRecup });
+          }
+        }
+      }
+     
+      if (listMessages.length > 0) {
+        res.status(200).json({ messages: listMessages });
+      } else {
+        res.status(200).json({ message: "Aucun message trouvé" });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(400).json({ error });
+    });
+};
+exports.createMessageForOnePost = (req, res, next) => {
+  models.message
+    .create({
+      profilId: req.body.profilId,
+      articleId: req.body.articleId,
+      content: req.body.content,
+    })
+    .then(() => res.status(201).json({ message: "Message enregistré !" }))
+    .catch((error) => res.status(400).json({ error }));
+};
+
+exports.deleteMessageForOnePost = (req, res, next) => {
+  models.message
+    .destroy({ where: { id: req.params.id } })
+    .then(() => res.status(200).json({ message: "Message supprimé !" }))
+    .catch((error) => res.status(400).json({ error }));
 };
