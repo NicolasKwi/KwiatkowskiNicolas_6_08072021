@@ -6,14 +6,14 @@
   .piedcard_info {
     display: flex;
     align-items: center;
-   
+
     .commentaire {
-        display: flex;
-      margin: 0 10px;        
+      display: flex;
+      margin: 0 10px;
       flex-grow: 1;
-     
+
       justify-content: center;
-      img{
+      img {
         width: 25px;
         cursor: pointer;
         margin: 0 5px 0 10px;
@@ -29,6 +29,127 @@
       }
       p {
         margin-right: 10px;
+      }
+    }
+  }
+  .tout_les_messages {
+    background-color: $color-5;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    // border-radius: 10px 10px 0 0;
+    border-radius: 10px;
+    .creemessage {
+      margin: 20px;
+    }
+    .messcontent_cree {
+      input {
+        width: 100%;
+        margin: 10px;
+      }
+    }
+    .cree_message_confirme {
+      display: flex;
+      align-items: center;
+
+      button {
+        margin: 5px;
+        padding: 5px;
+        text-align: start;
+        border-radius: 5px;
+        background: $color-8;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+        box-shadow: 3px 3px 1px rgba(51, 51, 51, 0.418);
+        &:hover {
+          background: $color-1;
+        }
+      }
+      p {
+        flex-grow: 1;
+        align-self: center;
+        text-align: center;
+        color: red;
+      }
+    }
+    .liste_messages {
+      display: flex;
+      flex-direction: column;
+      background-color: rgb(202, 202, 202);
+      border-radius: 0px 0px 10px 10px;
+      .aucun_message{
+        margin: 10px;
+       
+      }
+      .message {
+        margin: 10px 10px 10px 70px;
+        border-radius: 10px;
+        .message__entete {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          background-color: rgb(235, 235, 235);
+           border-radius: 10px 10px 0 0;
+         
+          img {
+            height: 30px;
+            object-fit: scale-down;
+            margin: 5px;
+          }
+          .identite {
+            align-self: flex-start;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            padding: 5px;
+            .identite_psedo {
+              color: black;
+              font-weight: bold;
+            }
+            .identite_fonction {
+              color: grey;
+              font-weight: lighter;
+              font-style: italic;
+            }
+          }
+          .entete_espace {
+            flex-grow: 1;
+          }
+
+          .horaire_message {
+            align-self: flex-start;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            padding: 5px;
+            .date_message {
+              font-weight: lighter;
+              font-style: italic;
+              font-size: small;
+            }
+          }
+        }
+        .message_corps {
+          background-color: white;
+          display: flex;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          padding: 10px;
+          border-radius: 0 0 10px 10px;
+
+          .message_supprime {
+            img {
+              height: 30px;
+              border-radius: 10px;
+              border: 1px solid grey;
+              &:hover {
+                background-color: rgb(255, 237, 191);
+              }
+            }
+          }
+        }
       }
     }
   }

@@ -30,66 +30,46 @@ exports.createPost = (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
-//met a jour le status j'aime de l'utilisateur sur une sauce
-exports.updateLikePost = (req, res, next) => {
-  Sauce.findOne({ _id: req.params.id })
-    .then((sauce) => {
-      //permet de stocker les index correspondant au uesrid dans les tableaux des like/dislike
-      let indexUserLike = sauce.usersLiked.indexOf(req.body.userId);
-      let indexUserDislike = sauce.usersDisliked.indexOf(req.body.userId);
-      let messageRes = "";
-
-      switch (req.body.like) {
-        case 0: //annule les j'aime/j'aime pas
-          //si dans tableau alors supprime
-          if (indexUserLike > -1) {
-            sauce.usersLiked.splice(indexUserLike, 1);
-            sauce.likes -= 1;
-            messageRes = "J'aime enlevé";
-          }
-          if (indexUserDislike > -1) {
-            sauce.usersDisliked.splice(indexUserDislike, 1);
-            sauce.dislikes -= 1;
-            messageRes = "Je n'aime pas enlevé";
-          }
-          break;
-        case 1: //j'aime
-          //enleve si dans dislike
-          if (indexUserDislike > -1) {
-            sauce.usersDisliked.splice(indexUserDislike, 1);
-            sauce.dislikes -= 1;
-          }
-          //ajoute si userid dans usersLiked n'existe pas
-          if ((indexUserLike = -1)) {
-            sauce.usersLiked.push(req.body.userId);
-            sauce.likes += 1;
-            messageRes = "J'aime enregistré";
-          }
-          break;
-        case -1: //j'aime pas
-          //enleve si dans like
-          if (indexUserLike > -1) {
-            sauce.indexUserLike.splice(indexUserLike, 1);
-            sauce.likes -= 1;
-          }
-          //ajoute si userid dans usersDisliked n'existe pas
-          if ((indexUserLike = -1)) {
-            sauce.usersDisliked.push(req.body.userId);
-            sauce.dislikes += 1;
-            messageRes = "Je n'aime pas enregistré";
-          }
-          break;
-        default:
-          throw "Valeur de like/dislike erroné ";
+//met a jour le status j'aime de l'utilisateur sur un Post
+exports.updateLikePost = async (req, res, next) => {
+  models.liked
+    .findOne({
+      where: { articleId: req.params.id, profilId: req.body.profilId },
+    })
+    .then(async (likeTrouver) => {
+      let strLikeReturn = "";
+      let idarticle = req.params.id;
+      if (likeTrouver) {
+        if (req.body.like == 0) {
+          //detriut
+          likeTrouver.destroy();
+          models.article.decrement("like", {
+            by: 1,
+            silent: true,
+            where: { id: req.params.id },
+          });
+        }
+      } else {
+        if (req.body.like == 1) {
+          //cree
+          models.liked.create({
+            profilId: req.body.profilId,
+            articleId: req.params.id,
+          });
+          models.article.increment("like", {
+            by: 1,
+            silent: true,
+            where: { id: req.params.id },
+          });
+        }
       }
-      sauce.save();
-      res.status(200).json(messageRes);
+      res.status(200).json({ message: "Like modifié !" });
     })
     .catch((error) => res.status(400).json({ error }));
 };
 
 //put
-// met à jour une sauce
+// met à jour d'un post
 exports.ModifyPost = async (req, res, next) => {
   let imageUrl = "";
 
@@ -127,7 +107,7 @@ exports.ModifyPost = async (req, res, next) => {
 };
 
 //delete
-//supprime une sauce
+//supprime un post
 exports.deletePost = async (req, res, next) => {
   // supprime l'image si elle existe
   await models.article
@@ -146,7 +126,7 @@ exports.deletePost = async (req, res, next) => {
 };
 
 //get
-//renvoie toutes les sauces
+//renvoie tout les articles
 exports.getAllPost = (req, res, next) => {
   //tableau des articles +profil
 
@@ -155,33 +135,20 @@ exports.getAllPost = (req, res, next) => {
     .then(async (articles) => {
       if (articles) {
         let listArticles = [];
-        let userLike = {};
+        // let userLike = {};
         for (const articleTemp of articles) {
-          userLike = { likestate: 0 };
+          // userLike = { likestate: 0 };
           let profilArticle = await models.profil
             .findOne({
               attributes: ["id", "pseudonyme", "avatar", "fonction"],
               where: { id: articleTemp.profilId },
             })
             .then(async (profil) => {
-              let userLikeTest = await models.like
-                .findOne({
-                  attributes: ["id", "likestate", "profilId", "articleId"],
-                  where: { articleId: articleTemp.id, profilId: profil.id },
-                })
-                .then((like) => {
-                  return like;
-                });
-              userLikeTest
-                ? (userLike = userLikeTest)
-                : (userLike = { likestate: 0 });
-
               return profil;
             });
           listArticles.push({
             article: articleTemp,
             profil: profilArticle,
-            like: userLike,
           });
         }
         if (listArticles.length > 0) {
@@ -194,7 +161,6 @@ exports.getAllPost = (req, res, next) => {
       }
     })
     .catch((error) => {
-    
       res.status(400).json({ error });
     });
 };
@@ -213,7 +179,7 @@ exports.getOnePost = (req, res, next) => {
           .then((profil) => {
             models.like
               .findOne({
-                attributes: ["id", "likestate", "profilId", "articleId"],
+                attributes: ["id", "profilId", "articleId"],
                 where: { articleId: articleTemp.id, profilId: profil.id },
               })
               .then((like) => {
@@ -257,7 +223,7 @@ exports.getAllMessagesForOnePost = (req, res, next) => {
         res.status(200).json({ message: "Aucun message trouvé" });
       }
     })
-    .catch((error) => {     
+    .catch((error) => {
       res.status(400).json({ error });
     });
 };
@@ -272,7 +238,7 @@ exports.createMessageForOnePost = (req, res, next) => {
       if (messcree) {
         models.article.update(
           { nbrmessages: sequelize.literal("nbrmessages + 1") },
-          { where: { id: messcree.articleId } }
+          { where: { id: messcree.articleId }, silent: true }
         );
       }
       res.status(201).json({ message: "Message enregistré !" });
@@ -287,10 +253,25 @@ exports.deleteMessageForOnePost = (req, res, next) => {
       if (messdetruit === 1) {
         models.article.update(
           { nbrmessages: sequelize.literal("nbrmessages - 1") },
-          { where: { id: req.body.articleId } }
+          { where: { id: req.body.articleId }, silent: true }
         );
       }
       res.status(200).json({ message: "Message supprimé !" });
+    })
+    .catch((error) => res.status(400).json({ error }));
+};
+
+exports.getLikeState = (req, res, next) => {
+  models.liked
+    .findOne({
+      where: { articleId: req.params.articleId, profilId: req.params.id },
+    })
+    .then((likeTrouver) => {
+      let resultlike = 0;
+      if (likeTrouver) {
+        resultlike = 1;
+      }
+      res.status(200).json({ like: resultlike });
     })
     .catch((error) => res.status(400).json({ error }));
 };

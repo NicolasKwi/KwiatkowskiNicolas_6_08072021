@@ -38,11 +38,6 @@ module.exports = (sequelize) => {
       allowNull: false,
       type: DataTypes.INTEGER,
       defaultValue: 0,
-    },
-    dislike: {
-      allowNull: false,
-      type: DataTypes.INTEGER,
-      defaultValue: 0,
-    },
+    },   
   });
 };

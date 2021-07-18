@@ -1,5 +1,5 @@
 function applyExtraSetup(sequelize) {
-  const { user, profil, article, message, like } = sequelize.models;
+  const { user, profil, article, message, liked } = sequelize.models;
 
   user.hasOne(profil);
 
@@ -11,7 +11,7 @@ function applyExtraSetup(sequelize) {
     onDelete: 'cascade',
     hooks: true, 
   });
-  profil.hasMany(like, { 
+  profil.hasMany(liked, { 
     onDelete: 'cascade',
     hooks: true, 
   });
@@ -20,7 +20,7 @@ function applyExtraSetup(sequelize) {
     onDelete: 'cascade',
     hooks: true, 
   });
-  article.hasMany(like, { 
+  article.hasMany(liked, { 
     onDelete: 'cascade',
     hooks: true, 
   });

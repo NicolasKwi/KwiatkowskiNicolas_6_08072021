@@ -10,10 +10,8 @@
   font-size: small;
   background-color: rgb(235, 235, 235); 
 
-  img {
-    // min-height: 25px;
-    height: 50px;
-    // width: 90%;
+  img {  
+    height: 50px; 
     object-fit: scale-down;
     margin: 5px;
   }

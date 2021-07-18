@@ -49,6 +49,7 @@ const Article = ({ post }) => {
       })
         .then(() => {
           setIsEdit(false);
+          document.location.reload();
         })
         .catch((error) => {
           alert(error);
@@ -66,7 +67,7 @@ const Article = ({ post }) => {
       },
     })
       .then(() => {
-        window.location = "/acceuil";
+        document.location.reload();
       })
       .catch((error) => {
         alert(error);
@@ -133,7 +134,7 @@ const Article = ({ post }) => {
               )}
             </div>
           </div>
-          <div>
+          <div className="lien_modif">
             <label htmlFor={`lienmodif_${post.article.id}`}>Lien :</label>
             <input
               type="text"
@@ -144,7 +145,7 @@ const Article = ({ post }) => {
               value={postlienmodif}
             />
           </div>
-          <div>
+          <div className="edit_mess_button">
             <button onClick={() => handlePostUpdate()}>Enregistrer</button>
             <button onClick={() => setIsEdit(false)}>Annuler</button>
           </div>

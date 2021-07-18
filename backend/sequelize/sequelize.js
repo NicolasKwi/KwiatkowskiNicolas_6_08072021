@@ -14,7 +14,7 @@ const modelDefiners = [
 	require('./models/profil.model'),
 	require('./models/article.model'),
 	require('./models/message.model'),	
-	require('./models/like.model'),	
+	require('./models/liked.model'),	
 ];
 
 // We define all models according to their files.

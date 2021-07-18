@@ -6,7 +6,7 @@ import { dateParser } from "../utils";
 const PiedCard = ({ post }) => {
   const profilUser = getProfilUser();
 
-  const [etatLike, setEtatLike] = useState(post.like.likestate);
+  const [etatLike, setEtatLike] = useState(0);
   const [affichageMessage, setAffichageMessage] = useState(false);
 
   const [nbrMessages, setNbrMessages] = useState(post.article.nbrmessages);
@@ -19,7 +19,7 @@ const PiedCard = ({ post }) => {
   const [delEstAJour, setDelEstAJour] = useState(true);
 
   //recupere les messages
-  useEffect(() => {   
+  useEffect(() => {
     if (affichageMessage) {
       axios({
         method: "get",
@@ -33,7 +33,7 @@ const PiedCard = ({ post }) => {
             //  recupere les messages
             setListMessages(res.data.messages);
             setMesEstAJour(true);
-            setDelEstAJour(true)
+            setDelEstAJour(true);
             console.log("use effect");
           }
         })
@@ -41,7 +41,68 @@ const PiedCard = ({ post }) => {
           alert(error);
         });
     }
-  }, [affichageMessage,mesEstAJour,delEstAJour]);
+    //recupere l'etat like
+    handleEtatLike();
+  }, [affichageMessage, mesEstAJour, delEstAJour]);
+
+  // recupere le like
+  const handleEtatLike = () => {
+    console.log("etatlike");
+    const data = {
+      profilId: profilUser.id,
+      like: etatLike,
+    };
+
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_API_URL}/api/post/${post.article.id}/like/${profilUser.id}`,
+      data: data,
+      headers: {
+        Authorization: `bearer ${profilUser.token}`,
+      },
+    })
+      .then((res) => {
+        console.log(res.data.like);
+        if (res.data.like) {
+          res.data.like === 1 ? setEtatLike(1) : setEtatLike(0);
+        }
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
+
+  //update des likes
+  const handleUpdatelikepost = () => {
+    console.log("like");
+    let tempEtatLike = etatLike;
+    tempEtatLike === 0 ? (tempEtatLike = 1) : (tempEtatLike = 0);
+    // etatLike === 0 ? setEtatLike(1) : setEtatLike(0);
+    const data = {
+      profilId: profilUser.id,
+      like: tempEtatLike,
+    };
+    //api update like
+    axios({
+      method: "put",
+      url: `${process.env.REACT_APP_API_URL}/api/post/${post.article.id}/like`,
+      data: data,
+      headers: {
+        Authorization: `bearer ${profilUser.token}`,
+      },
+    })
+      .then((res) => {
+        setEtatLike(tempEtatLike);
+        if (tempEtatLike === 0) {
+          setNbrLike(nbrLike - 1);
+        } else if (tempEtatLike === 1) {
+          setNbrLike(nbrLike + 1);
+        }
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
 
   const validationMessage = () => {
     try {
@@ -122,15 +183,16 @@ const PiedCard = ({ post }) => {
     <div className="piedcard">
       <div className="piedcard_info">
         <div>
-          {etatLike === 0 ? (
-            <img src="./img/icons/heart.svg" title="Like" alt="liker" />
-          ) : (
-            <img
-              src="./img/icons/heart-filled.svg"
-              title="Like"
-              alt="Non liker"
-            />
-          )}
+          <img
+            src={
+              etatLike === 0
+                ? "./img/icons/heart.svg"
+                : "./img/icons/heart-filled.svg"
+            }
+            title="Like"
+            alt="liker"
+            onClick={() => handleUpdatelikepost()}
+          />
           <p>{nbrLike} like</p>
         </div>
         <div className="commentaire">
@@ -146,15 +208,15 @@ const PiedCard = ({ post }) => {
       {affichageMessage && (
         <div className="tout_les_messages">
           <div className="creemessage">
-            <div>
+            <div className="messcontent_cree">
               <label htmlFor={`messagepost_${post.article.id}`}>
                 Ecrire un message :
               </label>
               <input type="text" id={`messagepost_${post.article.id}`} />
             </div>
             <div className="cree_message_confirme">
-              <p>{erreurTrouver}</p>
               <button onClick={() => handleCreateMessage()}>Envoyer</button>
+              <p>{erreurTrouver}</p>
             </div>
           </div>
           <div className="liste_messages">
@@ -190,26 +252,26 @@ const PiedCard = ({ post }) => {
                       <div className="message_corps">
                         <p className="message_corps_content">
                           {mess.message.content}
-                        </p>
+                        </p>{" "}
+                        {mess.profil.id === profilUser.id && (
+                          <div className="message_supprime">
+                            <img
+                              src="./img/icons/trash.svg"
+                              title="Supprimer"
+                              data-idmessage={mess.message.id}
+                              onClick={(e) => {
+                                handleDeleteMessage(e);
+                              }}
+                            />
+                          </div>
+                        )}
                       </div>
-                      {mess.profil.id === profilUser.id && (
-                        <div className="message_supprime">
-                          <img
-                            src="./img/icons/trash.svg"
-                            title="Supprimer"
-                            data-idmessage={mess.message.id}
-                            onClick={(e) => {
-                              handleDeleteMessage(e);
-                            }}
-                          />
-                        </div>
-                      )}
                     </div>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p>Aucun messages</p>
+              <p className="aucun_message">Aucun messages</p>
             )}
           </div>
         </div>
