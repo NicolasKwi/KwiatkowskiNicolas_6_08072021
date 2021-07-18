@@ -28,12 +28,10 @@ body {
 li {
   list-style-type: none;
 }
-a {
-  // text-decoration: none;
-  // color: $color-3;
+a { 
   cursor: pointer;
 }
-// a:visited {
-//   color: $color-3;
-// }
+textarea{
+  font-family: $font-1;
+}
 

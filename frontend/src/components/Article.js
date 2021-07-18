@@ -1,8 +1,8 @@
 import axios from "axios";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import EnteteCard from "./card/EnteteCard";
 import PiedCard from "./card/PiedCard";
-import {getProfilUser } from "./utils";
+import { getProfilUser } from "./utils";
 
 const Article = ({ post }) => {
   const profilUser = getProfilUser();
@@ -76,40 +76,62 @@ const Article = ({ post }) => {
   return (
     <li className="article">
       <div>
-        <EnteteCard post={post} />       
+        <EnteteCard post={post} key={`entetecard_${post.article.id}`} />
       </div>
       {post.article.profilId === profilUser.id && (
-          <div  className="icon_boutton_article" >
-            <img src="./img/icons/edit.svg" title='Editer' onClick={() => setIsEdit(!isEdit)}/>
-            <img src="./img/icons/trash.svg" title='Supprimer' onClick={() => handlePostDelete()}/>
-          </div>
-        )}
+        <div className="icon_boutton_article">
+          <img
+            src="./img/icons/edit.svg"
+            alt="Bouton édition d'article"
+            title="Editer"
+            onClick={() => {
+              setPostContentmodif(postContent);
+              setIsEdit(!isEdit);
+            }}
+          />
+          <img
+            src="./img/icons/trash.svg"
+            alt="Bouton de suppression d'article"
+            title="Supprimer"
+            onClick={() => handlePostDelete()}
+          />
+        </div>
+      )}
       {isEdit ? (
-        <div className='edition_article'>
+        <div className="edition_article">
           <textarea
             defaultValue={postContentmodif}
             onChange={(e) => setPostContentmodif(e.target.value)}
           ></textarea>
-          <div>
-            {postimgmodif && <img className="article_image" src={postimgmodif} alt="Séléction de l'image" />}
-            <input
-              type="file"
-              id="image"
-              name="image"
-              accept=".jpg, .jpeg, .png"
-              onChange={(e) => handlePicture(e)}
-            />
+          <div className="edition_image">
             {postimgmodif && (
-              <button
-                onClick={() => {
-                  setPostimgmodif("");
-                  setFile("");
-                  document.getElementById("image").value = "";
-                }}
-              >
-                supprimer image
-              </button>
+              <img
+                className="article_image"
+                src={postimgmodif}
+                alt="Fichier séléctioné"
+              />
             )}
+            <div className='image_modif'>
+              <input
+                type="file"
+                id={`image_${post.article.id}`}
+                name="image"
+                accept=".jpg, .jpeg, .png"
+                onChange={(e) => handlePicture(e)}
+              />
+              {postimgmodif && (
+                <button
+                  onClick={() => {
+                    setPostimgmodif("");
+                    setFile("");
+                    document.getElementById(`image_${post.article.id}`).value =
+                      "";
+                  }}
+                >
+                  supprimer image
+                </button>
+              )}
+            </div>
           </div>
           <div>
             <label htmlFor={`lienmodif_${post.article.id}`}>Lien :</label>
@@ -130,12 +152,18 @@ const Article = ({ post }) => {
       ) : (
         <div className="affichage_article">
           <p>{postContent}</p>
-          {postimg && <img  className="article_image" src={postimg} alt="Image de l'article" />}
+          {postimg && (
+            <img
+              className="article_image"
+              alt="Photographie de l'article"
+              src={postimg}
+            />
+          )}
           {postlien && <a href={postlien}>{postlien}</a>}
         </div>
       )}
-       
-      <PiedCard post={post} />
+
+      <PiedCard post={post} key={`piedscard_${post.article.id}`} />
     </li>
   );
 };

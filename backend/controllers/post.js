@@ -1,5 +1,6 @@
 //models sequelize
 const { models } = require("../sequelize/sequelize");
+const sequelize = require("../sequelize/sequelize");
 //gestion des fichier
 const fs = require("fs");
 //post
@@ -193,7 +194,7 @@ exports.getAllPost = (req, res, next) => {
       }
     })
     .catch((error) => {
-      console.log("erreur 400");
+    
       res.status(400).json({ error });
     });
 };
@@ -227,7 +228,7 @@ exports.getOnePost = (req, res, next) => {
     .catch((error) => res.status(404).json({ error }));
 };
 //renvoie la liste des messages pour un article
-exports.getAllMessagesForOnePost = (req, res, next) => {  
+exports.getAllMessagesForOnePost = (req, res, next) => {
   models.message
     .findAll({
       where: { articleId: req.params.id },
@@ -241,7 +242,7 @@ exports.getAllMessagesForOnePost = (req, res, next) => {
               attributes: ["id", "pseudonyme", "avatar", "fonction"],
               where: { id: messagesTemp.profilId },
             })
-            .then((profil) => {            
+            .then((profil) => {
               return profil;
             });
           if (profilRecup) {
@@ -249,15 +250,14 @@ exports.getAllMessagesForOnePost = (req, res, next) => {
           }
         }
       }
-     
+
       if (listMessages.length > 0) {
         res.status(200).json({ messages: listMessages });
       } else {
         res.status(200).json({ message: "Aucun message trouvé" });
       }
     })
-    .catch((error) => {
-      console.log(error);
+    .catch((error) => {     
       res.status(400).json({ error });
     });
 };
@@ -268,13 +268,29 @@ exports.createMessageForOnePost = (req, res, next) => {
       articleId: req.body.articleId,
       content: req.body.content,
     })
-    .then(() => res.status(201).json({ message: "Message enregistré !" }))
+    .then((messcree) => {
+      if (messcree) {
+        models.article.update(
+          { nbrmessages: sequelize.literal("nbrmessages + 1") },
+          { where: { id: messcree.articleId } }
+        );
+      }
+      res.status(201).json({ message: "Message enregistré !" });
+    })
     .catch((error) => res.status(400).json({ error }));
 };
 
 exports.deleteMessageForOnePost = (req, res, next) => {
   models.message
     .destroy({ where: { id: req.params.id } })
-    .then(() => res.status(200).json({ message: "Message supprimé !" }))
+    .then((messdetruit) => {
+      if (messdetruit === 1) {
+        models.article.update(
+          { nbrmessages: sequelize.literal("nbrmessages - 1") },
+          { where: { id: req.body.articleId } }
+        );
+      }
+      res.status(200).json({ message: "Message supprimé !" });
+    })
     .catch((error) => res.status(400).json({ error }));
 };

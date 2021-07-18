@@ -22,12 +22,15 @@
     width: 100%;
     border-radius: 15px;
     background-color: grey;
+    padding: 5px;
     img {
-      min-height: 100px;
-      max-height: 300px;
-      width: 90%;
-      object-fit: scale-down;
-      margin: 10px;
+      align-self: center;
+      width: 100%;
+      max-width: 800px;
+      max-height: 800px;
+      border-radius: 6px;
+      margin-top: 12px;
+      box-shadow: 0 0 3px rgba(51, 51, 51, 0.342);
     }
 
     .postimage_bouttons {
@@ -42,7 +45,7 @@
       }
 
       input[type="file"],
-      button {
+      button {        
         margin: 5px;
         padding: 5px;
         text-align: start;
@@ -52,6 +55,9 @@
         cursor: pointer;
         transition: 0.3s;
         box-shadow: 3px 3px 1px rgba(51, 51, 51, 0.418);
+      }
+      .imagecree_file{
+        width: 300px;
       }
     }
   }

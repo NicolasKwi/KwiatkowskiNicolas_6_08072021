@@ -23,7 +23,7 @@ exports.signupUser = (req, res, next) => {
               userId: userCree.dataValues.id,
             })
             .then((profil) => {
-              const profilValue={...profil.dataValues};
+              const profilValue = { ...profil.dataValues };
               delete profilValue.userId;
               res.status(201).json({
                 profil: {
@@ -57,7 +57,6 @@ exports.signupUser = (req, res, next) => {
 };
 //connection utilisateur
 exports.loginUser = (req, res, next) => {
-  // console.log(req.body);
   models.user
     .findOne({ where: { email: req.body.email } })
     .then((user) => {
@@ -65,35 +64,31 @@ exports.loginUser = (req, res, next) => {
         return res.status(401).json({ error: "Utilisateur non trouvé !" });
       }
 
-      bcrypt
-        .compare(req.body.password, user.password)
-        .then((valid) => {
-          if (!valid) {
-            return res.status(401).json({ error: "Mot de passe incorrect !" });
+      bcrypt.compare(req.body.password, user.password).then((valid) => {
+        if (!valid) {
+          return res.status(401).json({ error: "Mot de passe incorrect !" });
+        }
+        models.profil.findOne({ where: { userId: user.id } }).then((profil) => {
+          if (!profil) {
+            return res.status(401).json({ error: "profil non trouvé !" });
           }
-          models.profil
-            .findOne({ where: { userId: user.id } })
-            .then((profil) => {
-              if (!profil) {
-                return res.status(401).json({ error: "profil non trouvé !" });
-              }
-              // renvoie le profil
-             const profilValue={...profil.dataValues};
-             delete profilValue.userId;
-             
-              res.status(200).json({
-                profil: {
-                  ...profilValue,
-                  token: jwt.sign({ profilId: profil.id }, process.env.TOKEN, {
-                    expiresIn: "24h",
-                  }),
-                },
-              });
-            })
-            .catch((error) => res.status(500).json({ error }));
-        })
-        .catch((error) => res.status(500).json({ error }));
+          // renvoie le profil
+          const profilValue = { ...profil.dataValues };
+          delete profilValue.userId;
+
+          res.status(200).json({
+            profil: {
+              ...profilValue,
+              token: jwt.sign({ profilId: profil.id }, process.env.TOKEN, {
+                expiresIn: "24h",
+              }),
+            },
+          });
+        });
+      });
     })
-    .catch((error) => res.status(500).json({ error }));
+    .catch((error) => {
+      console.log(error);
+      res.status(500).json({ error });
+    });
 };
-exports.testToken = (req, res, next) => {};

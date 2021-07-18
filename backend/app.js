@@ -14,19 +14,10 @@ const path = require("path");
 
 const app = express();
 
-
-
-
 sequelize.authenticate().then( console.log('Connection Mysql etablie avec success')).catch( (error)=>{
   console.error('Unable to connect to the database:', error);
 })
 
-// 
-// mongoose
-//   .connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true }
-//   )
-//   .then(() => console.log("Connexion à MongoDB réussie !"))
-//   .catch(() => console.log("Connexion à MongoDB échouée !"));
 
 //
 app.use((req, res, next) => {
@@ -43,6 +34,7 @@ app.use((req, res, next) => {
   res.setHeader('Content-Security-Policy', "default-src 'self'");
   next();
 });
+
 // securisation cookies
 app.use(session({ 
   secret: 'Lasaucepiquante',
@@ -56,8 +48,6 @@ app.use(session({
   }
 }));
 
-
-//body parser deprecier -> app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -68,7 +58,7 @@ app.use(express.json());
 // windowsMs: Contains the time in milliseconds to receive max requests
 // message: message to be shown to the user on rate-limit
 const limiter = rateLimit({
-  max: 10,
+  max: 30,
   windowMs: 5 * 1000, // pour 5 secondes
   message: "Trop de requêtes venant de cette adresse IP"
 });

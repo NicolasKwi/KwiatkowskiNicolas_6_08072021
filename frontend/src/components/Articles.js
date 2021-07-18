@@ -41,8 +41,7 @@ const Articles = () => {
   }, []);
 
   return (
-    <div className="articles">
-      <h1>{window.location.origin}</h1>
+    <div className="articles">    
       {aucunArticle ? (
         <p>{messAucun}</p>
       ) : (

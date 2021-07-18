@@ -7,6 +7,7 @@ module.exports = (req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.TOKEN);
     const profilId = decodedToken.profilId; 
     if (req.body.profilId && req.body.profilId !== profilId) {
+      console.log('Id utilisateur invalide');
       throw 'Id utilisateur invalide';
     } else {
       next();

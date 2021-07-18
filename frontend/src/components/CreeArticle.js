@@ -76,6 +76,7 @@ const CreeArticle = () => {
             Choissez une image :
           </label>
           <input
+          className='imagecree_file'
             type="file"
             id="imagecree"
             name="imagecree"
