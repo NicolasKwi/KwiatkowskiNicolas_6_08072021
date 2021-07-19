@@ -36,8 +36,7 @@ for (const modelDefiner of modelDefiners) {
 // exécution de toutes configuration supplémentaire après la définition des modèles, comme l'ajout d'associations .
 applyExtraSetup(sequelize);
 
-//
-console.log("sequelize sync => synchronisation des tables ");
+//synchronisation des tables
 sequelize.sync();
 
 module.exports = sequelize;

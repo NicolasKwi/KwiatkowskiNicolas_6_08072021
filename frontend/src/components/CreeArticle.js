@@ -72,7 +72,7 @@ const CreeArticle = () => {
       ></textarea>
       <div className="cree_postimage">
         {postImg && (
-          <img src={postImg} alt="affichage de la photo de la selection" />
+          <img src={postImg} alt="affichage de la selection" />
         )}
         <div className="postimage_bouttons">
           <label className="label_inputfile" htmlFor="imagecree">

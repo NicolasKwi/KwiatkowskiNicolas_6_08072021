@@ -256,6 +256,7 @@ const PiedCard = ({ post }) => {
                             <img
                               src="./img/icons/trash.svg"
                               title="Supprimer"
+                              alt="suppression"
                               data-idmessage={mess.message.id}
                               onClick={(e) => {
                                 handleDeleteMessage(e);

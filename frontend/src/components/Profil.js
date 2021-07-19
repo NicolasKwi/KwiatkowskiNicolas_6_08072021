@@ -124,7 +124,7 @@ const Profil = () => {
           {avatarModif && (
             <img
               src={avatarModif}
-              alt="affichage de la photo de la selection"
+              alt="affichage de la selection"
             />
           )}
           <div className="profilimage_bouttons">
