@@ -17,7 +17,7 @@ sequelize
   .authenticate()
   .then(console.log("Connection Mysql etablie avec success"))
   .catch((error) => {
-    console.error("Unable to connect to the database:", error);
+    console.error("La connection à la base Mysql a échoué", error);
   });
 //recupere les models
 const modelDefiners = [
