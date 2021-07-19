@@ -1,18 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navigation from "../components/Navigation";
-import Logo from "../components/Logo";
-import Articles from "../components/Articles"
+import Articles from "../components/Articles";
 import CreeArticle from "../components/CreeArticle";
-
+import { getProfilUser, delProfilUser } from "../components/utils";
+import Entetepage from "../components/Entetepage";
 
 const Home = () => {
-//   const {profilUser, setProfilUser} = useContext(ProfilContext);
-// console.log(profilUser);
+  useEffect(() => {
+    const profilUser = getProfilUser();
+    // test si on a le profil et le token
+    if (!profilUser || !profilUser.id || !profilUser.token) {
+      delProfilUser();
+      //retour a la page connection
+      window.location = "/";
+    }
+  }, []);
+
   return (
     <div>
-      <div className="home">
-        <h1>Acceuil</h1>
-        <Logo />
+      <div className="home">        
+        <Entetepage />
         <Navigation />
         <CreeArticle />
         <Articles />

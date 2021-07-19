@@ -1,11 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getProfilUser} from "../components/utils";
 import Login from "../components/log/Login";
 import Signup from "../components/log/Signup";
-
 
 const Connection = () => {
   const [loginModal, setLoginModal] = useState(true);
   const [signUpModal, setSignUpModal] = useState(false);
+
+  useEffect(() => {
+    const profilUser = getProfilUser();
+    // test si on a le profil et le token
+    if (profilUser && profilUser.id && profilUser.token) {
+      window.location = "/acceuil";
+    }
+  }, []);
 
   const handleModals = (e) => {
     if (e.target.id === "login-user") {
@@ -19,7 +27,6 @@ const Connection = () => {
 
   return (
     <div className="connection">
-             
       <div className="log-contener">
         <img src="./img/icon-above-font.svg" alt="Logo" />
         <ul>

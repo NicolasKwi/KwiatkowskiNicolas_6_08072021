@@ -36,7 +36,7 @@ for (const modelDefiner of modelDefiners) {
 // We execute any extra setup after the models are defined, such as adding associations.
 applyExtraSetup(sequelize);
 
-console.log("sequelize sync ");
+console.log("sequelize sync => synchronisation des tables ");
 sequelize.sync();
 
 // We export the sequelize connection instance to be used around our app.

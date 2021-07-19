@@ -1,27 +1,59 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { getProfilUser, setProfilUser } from "./utils";
+import { getProfilUser, setProfilUser, isEmpty, delProfilUser } from "./utils";
 
 const Profil = () => {
   let profilUser = getProfilUser();
 
-  const [psedoModif, setPsedoModif] = useState(profilUser.pseudonyme);
-  const [fonctionModif, setFonctionModif] = useState(profilUser.fonction);
-  const [avatarModif, setAvatarModif] = useState(profilUser.avatar);
+  const [psedoOrigine, setPsedoOrigine] = useState("");
+  const [fonctionOrigine, setFonctionOrigine] = useState("");
+  const [avatarOrigine, setAvatarOrigine] = useState("");
+
+  const [psedoModif, setPsedoModif] = useState("");
+  const [fonctionModif, setFonctionModif] = useState("");
+  const [avatarModif, setAvatarModif] = useState("");
+
   const [file, setFile] = useState();
 
   const [messErreur, setMessErreur] = useState("");
   const [mess, setMess] = useState("");
 
+  useEffect(() => {
+    console.log("useeffect");
+    if (isEmpty(profilUser)) {
+      console.log(isEmpty(profilUser));
+      delProfilUser();
+      window.location = "/";
+    } else {
+      if (isEmpty(profilUser.fonction)) profilUser.fonction = "";
+      if (isEmpty(profilUser.avatar)) profilUser.avatar = "";
+
+      setPsedoOrigine(profilUser.pseudonyme);
+      setFonctionOrigine(profilUser.fonction);
+      setAvatarOrigine(profilUser.avatar);
+
+      setPsedoModif(profilUser.pseudonyme);
+      setFonctionModif(profilUser.fonction);
+      setAvatarModif(profilUser.avatar);
+    }
+  }, []);
+
   const handleUpdateProfil = () => {
     // test de validiter
+    if (testIdentiqueProfil()) {
+      setMess("");
+      setMessErreur("Le profil est identique");
+      return;
+    }
+
     const psedoTrim = psedoModif.trim();
+    const fonctionTrim = isEmpty(fonctionModif) ? "" : fonctionModif.trim();
 
     if (psedoTrim !== "" && psedoTrim.length > 2) {
       const data = new FormData();
       data.append("profilId", profilUser.id);
       data.append("pseudonyme", psedoTrim);
-      data.append("fonction", fonctionModif);
+      data.append("fonction", fonctionTrim);
       data.append("avatar", avatarModif);
       if (file) data.append("image", file);
 
@@ -35,10 +67,20 @@ const Profil = () => {
       })
         .then((res) => {
           if (res.data) {
+            console.log("recu");
             profilUser.avatar = res.data.avatar;
             profilUser.pseudonyme = res.data.pseudonyme && res.data.pseudonyme;
             profilUser.fonction = res.data.fonction && res.data.fonction;
             setProfilUser(profilUser);
+
+            setPsedoOrigine(profilUser.pseudonyme);
+            setFonctionOrigine(profilUser.fonction);
+            setAvatarOrigine(profilUser.avatar);
+
+            setPsedoModif(profilUser.pseudonyme);
+            setFonctionModif(profilUser.fonction);
+            setAvatarModif(profilUser.avatar);
+
             setMess(res.data.message);
             setMessErreur("");
           }
@@ -53,9 +95,9 @@ const Profil = () => {
   };
 
   const handleAnnuler = () => {
-    setPsedoModif(profilUser.pseudonyme);
-    setFonctionModif(profilUser.fonction);
-    setAvatarModif(profilUser.avatar);
+    setPsedoModif(psedoOrigine);
+    setFonctionModif(fonctionOrigine);
+    setAvatarModif(avatarOrigine);
     setMessErreur("");
     setMess("");
   };
@@ -64,10 +106,20 @@ const Profil = () => {
     setAvatarModif(URL.createObjectURL(e.target.files[0]));
     setFile(e.target.files[0]);
   };
+  const testIdentiqueProfil = () => {
+    if (
+      psedoModif === psedoOrigine &&
+      fonctionModif === fonctionOrigine &&
+      avatarModif === avatarOrigine
+    ) {
+      return true;
+    }
+    return false;
+  };
 
   return (
     <div className="profil">
-      <form action="">
+      <div>
         <div className="cree_profilimage">
           {avatarModif && (
             <img
@@ -96,7 +148,7 @@ const Profil = () => {
                   document.getElementById("imageprofil_Modif").value = "";
                 }}
               >
-                supprimer image
+                Supprimer
               </button>
             )}
           </div>
@@ -107,9 +159,7 @@ const Profil = () => {
             type="text"
             id="psedo_profil"
             value={psedoModif}
-            onChange={(e) => {
-              setPsedoModif(e.target.value);
-            }}
+            onChange={(e) => setPsedoModif(e.target.value)}
           />
         </div>
         <div>
@@ -118,9 +168,7 @@ const Profil = () => {
             type="text"
             id="fonction_profil"
             value={fonctionModif}
-            onChange={(e) => {
-              setFonctionModif(e.target.value);
-            }}
+            onChange={(e) => setFonctionModif(e.target.value)}
           />
         </div>
         <div className="button_modif">
@@ -145,7 +193,7 @@ const Profil = () => {
             Annuler
           </button>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

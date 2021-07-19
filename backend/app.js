@@ -52,7 +52,7 @@ app.use(express.json());
 // windowsMs: Contains the time in milliseconds to receive max requests
 // message: message to be shown to the user on rate-limit
 const limiter = rateLimit({
-  max: 30,
+  max: 100,
   windowMs: 5 * 1000, // pour 5 secondes
   message: "Trop de requêtes venant de cette adresse IP"
 });

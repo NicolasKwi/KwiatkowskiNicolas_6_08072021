@@ -3,43 +3,69 @@
   flex-wrap: wrap;
   flex-direction: column;
   justify-content: center;
-  //   align-items: center;
+  // align-items: center;
   margin: 10px;
   border-radius: 10px;
   background-color: $color-5;
 
   border: 1px solid black;
 
-  .avatar {
+  .cree_profilimage {
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
   }
-  div {
-    margin: 5px auto;
-    width: 90%;
-  }
+
   label {
     margin: 5px;
   }
   input {
     margin: 5px;
-    width: 100%;
+    width: 95%;
   }
   img {
     margin: 10px;
-    width: 70px;
     border-radius: 10px;
+    height: 50px;
+    object-fit: scale-down;
   }
-  button {
-    margin: 10px;
-    padding: 5px;
-  }
+
   .button_modif {
     margin-top: 25px;
     display: flex;
     justify-content: flex-end;
-    p {
-      margin: auto;
+    align-items: center;
+
+    .mess_err_profil {
+      align-self: center;
+      flex-grow: 1;
+      text-align: center;
+
+      .mess_profil {
+        color: rgb(13, 83, 13);
+      }
+      .erreur_profil {
+        color: red;
+      }
     }
   }
+
+  button {
+    background: $color-8;
+    color: white;
+    width: 80px;
+    height: 30px;
+    margin: 0 10px 10px 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 2px 1px 1px rgba(51, 51, 51, 0.418);
+    &:hover {
+      background: $color-1;
+    }
+  }
+
+  //   p {
+  //     margin: auto;
+  //   }
+  // }
 }

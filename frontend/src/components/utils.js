@@ -43,10 +43,15 @@ export const isEmpty = (value) => {
 export const getProfilUser = () => {
   if (isEmpty(localStorage.getItem("profil"))) {
     return null;
-  } else {   
+  } else {
     return JSON.parse(localStorage.getItem("profil"));
   }
 };
 export const setProfilUser = (value) => {
   localStorage.setItem("profil", JSON.stringify(value));
+};
+export const delProfilUser = () => {
+  if (!isEmpty(localStorage.getItem("profil"))) {
+    localStorage.removeItem("profil");
+  }
 };

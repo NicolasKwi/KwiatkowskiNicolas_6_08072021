@@ -1,0 +1,17 @@
+.entete_page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ 
+  h1 {
+    border-bottom: 5px groove rgb(245, 245, 245);
+    color: $color-8;
+    width: 100%;
+    text-align: center;  
+  }
+  img {
+      margin: 10px;
+    width: 150px;
+  
+  }
+}

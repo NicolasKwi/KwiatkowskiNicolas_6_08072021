@@ -7,6 +7,12 @@
     flex-direction: column;
     justify-content: center;
 
+    .login_error{
+      flex-grow: 1;
+      color: red;
+      width: 90%;
+    }
+
     label {
       margin: 5px;
       width: 100%;

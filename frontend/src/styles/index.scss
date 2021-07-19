@@ -2,12 +2,11 @@
 
 @import "./pages/connection";
 @import "./pages/home";
-@import "./pages/utilisateur.scss";
+@import "./pages/utilisateur";
 
-
+@import "./components/entetepage";
 @import "./components/navigation";
 @import "./components/creearticle";
-@import "./components/logo";
 @import "./components/profil";
 @import "./components/login";
 @import "./components/signup";
@@ -15,4 +14,3 @@
 @import "./components/piedcard";
 @import "./components/articles";
 @import "./components/article";
-

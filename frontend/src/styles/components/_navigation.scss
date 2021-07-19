@@ -1,14 +1,20 @@
 .navigation {
-  margin: 20px 0;
+  margin: 5px 0;
   display: flex;
-
+  
+  img {
+    width: 20px;
+    margin:0 5px
+  }
   a {
+    display: flex;
     margin: 5px;
     padding: 10px;
     position: relative;
-    text-decoration: none;
+    text-decoration: none;    
     color: $color-3;
     cursor: pointer;
+  
   }
   a:visited {
     color: $color-3;

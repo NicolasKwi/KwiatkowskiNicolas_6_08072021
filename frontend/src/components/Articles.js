@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { setProfilUser, getProfilUser } from "../components/utils";
+import { getProfilUser, delProfilUser, isEmpty } from "../components/utils";
 import Article from "./Article";
 
 const Articles = () => {
@@ -10,38 +10,37 @@ const Articles = () => {
   const profilUser = getProfilUser();
 
   useEffect(() => {
-    // test si on a le profil et le token
-    if (!profilUser || !profilUser.id || !profilUser.token) {
-      setProfilUser("");
-      //retour a la page connection
+    console.log(isEmpty(profilUser));
+    if (isEmpty(profilUser)) {
+      delProfilUser();
       window.location = "/";
-    }
-
-    axios({
-      method: "get",
-      url: `${process.env.REACT_APP_API_URL}/api/post`,
-      headers: {
-        Authorization: `bearer ${profilUser.token}`,
-      },
-    })
-      .then((res) => {
-        if (res.data.message) {
-          //si il y a un message c'est qu'il n'y a pas d'article
-          setAucunArticle(true);
-          setMessAucun(res.data.message);
-        } else {
-          //il y as des articles
-          setAucunArticle(false);
-          setListArticles(res.data.articles);      
-        }
+    } else {
+      axios({
+        method: "get",
+        url: `${process.env.REACT_APP_API_URL}/api/post`,
+        headers: {
+          Authorization: `bearer ${profilUser.token}`,
+        },
       })
-      .catch((err) => {
-        alert(err);
-      });
+        .then((res) => {
+          if (res.data.message) {
+            //si il y a un message c'est qu'il n'y a pas d'article
+            setAucunArticle(true);
+            setMessAucun(res.data.message);
+          } else {
+            //il y as des articles
+            setAucunArticle(false);
+            setListArticles(res.data.articles);
+          }
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    }
   }, []);
 
   return (
-    <div className="articles">    
+    <div className="articles">
       {aucunArticle ? (
         <p>{messAucun}</p>
       ) : (
