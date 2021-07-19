@@ -7,8 +7,6 @@ import { getProfilUser } from "./utils";
 const Article = ({ post }) => {
   const profilUser = getProfilUser();
 
-  // const [allowModifi, setAllowModifi] = useState(false);
-  // let allowModifi = false;
   const [postContent] = useState(post.article.content);
   const [postimg] = useState(post.article.img);
   const [postlien] = useState(post.article.lien);
@@ -22,10 +20,13 @@ const Article = ({ post }) => {
 
   const [isEdit, setIsEdit] = useState(false);
 
+  //selection de l'image
   const handlePicture = (e) => {
     setPostimgmodif(URL.createObjectURL(e.target.files[0]));
     setFile(e.target.files[0]);
   };
+
+  //update de l'article modifier
   const handlePostUpdate = () => {
     if (
       postContentmodif !== postContent ||
@@ -38,6 +39,7 @@ const Article = ({ post }) => {
       data.append("lien", postlienmodif);
       data.append("img", postimgmodif);
       if (file) data.append("image", file);
+
       //api update article
       axios({
         method: "put",
@@ -57,6 +59,7 @@ const Article = ({ post }) => {
     }
   };
 
+  //supprime l'article
   const handlePostDelete = () => {
     axios({
       method: "delete",

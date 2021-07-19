@@ -34,7 +34,6 @@ const PiedCard = ({ post }) => {
             setListMessages(res.data.messages);
             setMesEstAJour(true);
             setDelEstAJour(true);
-            console.log("use effect");
           }
         })
         .catch((error) => {
@@ -45,9 +44,8 @@ const PiedCard = ({ post }) => {
     handleEtatLike();
   }, [affichageMessage, mesEstAJour, delEstAJour]);
 
-  // recupere le like
+  // recupere l'état de like
   const handleEtatLike = () => {
-    console.log("etatlike");
     const data = {
       profilId: profilUser.id,
       like: etatLike,
@@ -62,7 +60,6 @@ const PiedCard = ({ post }) => {
       },
     })
       .then((res) => {
-        console.log(res.data.like);
         if (res.data.like) {
           res.data.like === 1 ? setEtatLike(1) : setEtatLike(0);
         }
@@ -74,14 +71,13 @@ const PiedCard = ({ post }) => {
 
   //update des likes
   const handleUpdatelikepost = () => {
-    console.log("like");
     let tempEtatLike = etatLike;
     tempEtatLike === 0 ? (tempEtatLike = 1) : (tempEtatLike = 0);
-    // etatLike === 0 ? setEtatLike(1) : setEtatLike(0);
     const data = {
       profilId: profilUser.id,
       like: tempEtatLike,
     };
+
     //api update like
     axios({
       method: "put",
@@ -120,6 +116,7 @@ const PiedCard = ({ post }) => {
       return false;
     }
   };
+
   //cree les messages
   const handleCreateMessage = async () => {
     if (validationMessage()) {
@@ -152,6 +149,7 @@ const PiedCard = ({ post }) => {
         });
     }
   };
+
   //supprmession d'un message
   const handleDeleteMessage = async (e) => {
     const data = {

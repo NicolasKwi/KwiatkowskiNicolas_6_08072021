@@ -3,7 +3,6 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
 import Connection from "../../pages/Connection";
 import Home from "../../pages/Home";
-// import NotFound from "../../pages/NotFound";
 import Utilisateur from "../../pages/Utilisateur";
 
 const Routes = () => {

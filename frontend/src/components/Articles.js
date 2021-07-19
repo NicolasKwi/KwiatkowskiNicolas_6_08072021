@@ -9,8 +9,8 @@ const Articles = () => {
   const [listArticles, setListArticles] = useState([]);
   const profilUser = getProfilUser();
 
-  useEffect(() => {
-    console.log(isEmpty(profilUser));
+  //recupere les articles
+  useEffect(() => {  
     if (isEmpty(profilUser)) {
       delProfilUser();
       window.location = "/";

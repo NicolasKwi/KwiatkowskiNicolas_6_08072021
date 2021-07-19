@@ -18,10 +18,8 @@ const Profil = () => {
   const [messErreur, setMessErreur] = useState("");
   const [mess, setMess] = useState("");
 
-  useEffect(() => {
-    console.log("useeffect");
-    if (isEmpty(profilUser)) {
-      console.log(isEmpty(profilUser));
+  useEffect(() => {   
+    if (isEmpty(profilUser)) {     
       delProfilUser();
       window.location = "/";
     } else {
@@ -38,6 +36,7 @@ const Profil = () => {
     }
   }, []);
 
+  //udpate du profil
   const handleUpdateProfil = () => {
     // test de validiter
     if (testIdentiqueProfil()) {
@@ -67,7 +66,6 @@ const Profil = () => {
       })
         .then((res) => {
           if (res.data) {
-            console.log("recu");
             profilUser.avatar = res.data.avatar;
             profilUser.pseudonyme = res.data.pseudonyme && res.data.pseudonyme;
             profilUser.fonction = res.data.fonction && res.data.fonction;
@@ -94,6 +92,7 @@ const Profil = () => {
     }
   };
 
+  // réinitialise les champs modifier
   const handleAnnuler = () => {
     setPsedoModif(psedoOrigine);
     setFonctionModif(fonctionOrigine);
@@ -102,6 +101,7 @@ const Profil = () => {
     setMess("");
   };
 
+  //selection de l'image
   const handlePicture = (e) => {
     setAvatarModif(URL.createObjectURL(e.target.files[0]));
     setFile(e.target.files[0]);

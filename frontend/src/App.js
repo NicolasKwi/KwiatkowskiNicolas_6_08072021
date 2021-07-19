@@ -1,13 +1,11 @@
 import React from "react";
 import Routes from "./components/router/Routes";
 
-
-function App() { 
-  return (  
+function App() {
+  return (
     <React.StrictMode>
-        <Routes />  
+      <Routes />
     </React.StrictMode>
-     
   );
 }
 

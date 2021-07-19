@@ -7,22 +7,22 @@ function applyExtraSetup(sequelize) {
     onDelete: "cascade",
     hooks: true,
   });
-  profil.hasMany(message, { 
-    onDelete: 'cascade',
-    hooks: true, 
+  profil.hasMany(message, {
+    onDelete: "cascade",
+    hooks: true,
   });
-  profil.hasMany(liked, { 
-    onDelete: 'cascade',
-    hooks: true, 
+  profil.hasMany(liked, {
+    onDelete: "cascade",
+    hooks: true,
   });
 
-  article.hasMany(message, { 
-    onDelete: 'cascade',
-    hooks: true, 
+  article.hasMany(message, {
+    onDelete: "cascade",
+    hooks: true,
   });
-  article.hasMany(liked, { 
-    onDelete: 'cascade',
-    hooks: true, 
+  article.hasMany(liked, {
+    onDelete: "cascade",
+    hooks: true,
   });
 }
 

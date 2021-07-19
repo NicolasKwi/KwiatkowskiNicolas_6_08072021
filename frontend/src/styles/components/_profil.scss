@@ -3,12 +3,10 @@
   flex-wrap: wrap;
   flex-direction: column;
   justify-content: center;
-  // align-items: center;
+
   margin: 10px;
   border-radius: 10px;
   background-color: $color-5;
-
-  border: 1px solid black;
 
   .cree_profilimage {
     display: flex;
@@ -63,9 +61,4 @@
       background: $color-1;
     }
   }
-
-  //   p {
-  //     margin: auto;
-  //   }
-  // }
 }

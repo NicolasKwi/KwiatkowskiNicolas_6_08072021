@@ -1,7 +1,7 @@
 // model pour avoir un minimum de securisation du mot de passe
 const passwordValidator = require('password-validator');
  
-// Create a schema
+
 const passwordSchema = new passwordValidator();
  
 // Add properties to it

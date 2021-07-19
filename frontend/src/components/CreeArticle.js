@@ -5,18 +5,18 @@ import axios from "axios";
 const CreeArticle = () => {
   const profilUser = getProfilUser();
 
-  const [postContent, setPostContent] = useState('');
-  const [postImg, setPostImg] = useState('');
-  const [postLien, setPostLien] = useState('');
+  const [postContent, setPostContent] = useState("");
+  const [postImg, setPostImg] = useState("");
+  const [postLien, setPostLien] = useState("");
   const [file, setFile] = useState();
 
   const [erreurTrouver, setErreurTrouver] = useState();
-
-
+// selection de l'image
   const handlePicture = (e) => {
     setPostImg(URL.createObjectURL(e.target.files[0]));
     setFile(e.target.files[0]);
   };
+  //post la creation d'un article
   const handlePost = () => {
     if (
       postContent.trim() !== "" ||
@@ -29,6 +29,7 @@ const CreeArticle = () => {
       data.append("lien", postLien);
       data.append("img", postImg);
       if (file) data.append("image", file);
+      
       //api update article
       axios({
         method: "post",
@@ -41,14 +42,14 @@ const CreeArticle = () => {
         .then(() => {
           setPostContent("");
           setPostImg("");
-          setPostLien("");  
-          window.location='/acceuil'       
+          setPostLien("");
+          window.location = "/acceuil";
         })
         .catch((error) => {
           alert(error);
         });
     } else {
-      setErreurTrouver('Veuillez rentrer un message, une image ou un lien')
+      setErreurTrouver("Veuillez rentrer un message, une image ou un lien");
       //affichage pour dire qu'il font un contenu
     }
   };
@@ -70,13 +71,15 @@ const CreeArticle = () => {
         onChange={(e) => setPostContent(e.target.value)}
       ></textarea>
       <div className="cree_postimage">
-        {postImg && <img src={postImg} alt="affichage de la photo de la selection" />}
+        {postImg && (
+          <img src={postImg} alt="affichage de la photo de la selection" />
+        )}
         <div className="postimage_bouttons">
           <label className="label_inputfile" htmlFor="imagecree">
             Choissez une image :
           </label>
           <input
-          className='imagecree_file'
+            className="imagecree_file"
             type="file"
             id="imagecree"
             name="imagecree"
@@ -104,7 +107,7 @@ const CreeArticle = () => {
           id="creatpostlink"
           onChange={(e) => {
             setPostLien(e.target.value);
-          }}        
+          }}
         />
       </div>
       <div className="cree_post_confirme">

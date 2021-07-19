@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getProfilUser} from "../components/utils";
+import { getProfilUser } from "../components/utils";
 import Login from "../components/log/Login";
 import Signup from "../components/log/Signup";
 

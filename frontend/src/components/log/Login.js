@@ -1,19 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
-import {setProfilUser} from "../utils";
-
+import { setProfilUser } from "../utils";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  //envoie la connection utilisateur
   const handleLogin = (e) => {
     e.preventDefault();
     const loginError = document.querySelector(".login_error");
     axios({
       method: "post",
       url: `${process.env.REACT_APP_API_URL}/api/auth/login`,
-      // withCredentials: true,
       data: {
         email: email,
         password: password,
@@ -30,10 +29,9 @@ const Login = () => {
       })
       .catch((err) => {
         if (err.response) {
-          loginError.innerHTML = err.response.data.error;
-          console.log(err.response.data.error);
+          loginError.innerHTML = err.response.data.error;        
         } else {
-          console.log(err.message);
+          alert(err.message);
         }
       });
   };

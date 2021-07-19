@@ -37,7 +37,6 @@
     margin-top: 20px;
     display: flex;
     flex-direction: column;
-    // border-radius: 10px 10px 0 0;
     border-radius: 10px;
     .creemessage {
       margin: 20px;
@@ -78,10 +77,9 @@
       flex-direction: column;
       background-color: rgb(202, 202, 202);
       border-radius: 0px 0px 10px 10px;
-    
-      .aucun_message{
+
+      .aucun_message {
         margin: 10px;
-       
       }
       .message {
         margin: 10px 10px 10px 70px;
@@ -91,8 +89,8 @@
           flex-wrap: wrap;
           align-items: center;
           background-color: rgb(235, 235, 235);
-           border-radius: 10px 10px 0 0;
-         
+          border-radius: 10px 10px 0 0;
+
           img {
             height: 30px;
             object-fit: scale-down;

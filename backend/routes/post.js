@@ -24,14 +24,11 @@ router.put("/profil/:id", auth, multer, postCtrl.updateProfil);
 router.delete("/:id", auth, postCtrl.deletePost);
 //supprime un message
 router.delete("/message/:id", auth, postCtrl.deleteMessageForOnePost);
-
 //get
 //renvoie touts les posts
 router.get("/", auth, postCtrl.getAllPost);
-
 //renvoie l'etat like
 router.get("/:articleId/like/:id", auth, postCtrl.getLikeState);
-
 //renvoie les messages pour un post (id => id du post)
 router.get("/messages/:id", auth, postCtrl.getAllMessagesForOnePost);
 

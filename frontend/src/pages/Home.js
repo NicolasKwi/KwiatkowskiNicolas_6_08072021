@@ -18,7 +18,7 @@ const Home = () => {
 
   return (
     <div>
-      <div className="home">        
+      <div className="home">
         <Entetepage />
         <Navigation />
         <CreeArticle />

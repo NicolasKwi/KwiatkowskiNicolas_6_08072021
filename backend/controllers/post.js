@@ -1,11 +1,11 @@
 //models sequelize
 const { models } = require("../sequelize/sequelize");
 const sequelize = require("../sequelize/sequelize");
-//gestion des fichier
+//gestion des fichiers
 const fs = require("fs");
 
-//*************** Articles (Post) *********************
-//post
+//*************** Articles *********************
+//post - créé un post (article)
 exports.createPost = (req, res, next) => {
   let imageUrl = "";
   if (req.file)
@@ -24,7 +24,7 @@ exports.createPost = (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
-// met à jour d'un post
+// update - met à jour d'un post
 exports.ModifyPost = async (req, res, next) => {
   let imageUrl = "";
   // supprime l'ancienne image
@@ -62,8 +62,7 @@ exports.ModifyPost = async (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
-//delete
-//supprime un post
+//delete - supprime un post
 exports.deletePost = async (req, res, next) => {
   // supprime l'image si elle existe
   await models.article
@@ -81,8 +80,7 @@ exports.deletePost = async (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
-//get
-//renvoie tout les articles
+//get - renvoie tout les post
 exports.getAllPost = (req, res, next) => {
   models.article
     .findAll({ order: [["createdAt", "DESC"]] })
@@ -118,7 +116,7 @@ exports.getAllPost = (req, res, next) => {
 };
 
 // ****************** Messages **********************
-//renvoie la liste des messages pour un article
+// get - renvoie la liste des messages pour un post
 exports.getAllMessagesForOnePost = (req, res, next) => {
   models.message
     .findAll({
@@ -153,6 +151,8 @@ exports.getAllMessagesForOnePost = (req, res, next) => {
       res.status(400).json({ error });
     });
 };
+
+//post - créé un message pour un post
 exports.createMessageForOnePost = (req, res, next) => {
   models.message
     .create({
@@ -172,6 +172,7 @@ exports.createMessageForOnePost = (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
+// delete - supprime un message pour un post
 exports.deleteMessageForOnePost = (req, res, next) => {
   models.message
     .destroy({ where: { id: req.params.id } })
@@ -188,6 +189,7 @@ exports.deleteMessageForOnePost = (req, res, next) => {
 };
 
 // ************** Like *****************
+//get - renvoie l'etat like pour un post
 exports.getLikeState = (req, res, next) => {
   models.liked
     .findOne({
@@ -202,7 +204,8 @@ exports.getLikeState = (req, res, next) => {
     })
     .catch((error) => res.status(400).json({ error }));
 };
-//met a jour le status j'aime de l'utilisateur sur un Post
+
+//update - met à jour le status j'aime de l'utilisateur sur un Post
 exports.updateLikePost = async (req, res, next) => {
   models.liked
     .findOne({
@@ -240,6 +243,7 @@ exports.updateLikePost = async (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 };
 //*********** Profil **************************/
+//update - Met à jour le profil utilisateur
 exports.updateProfil = async (req, res, next) => {
   let imageUrl = "";
   // supprime l'ancienne image

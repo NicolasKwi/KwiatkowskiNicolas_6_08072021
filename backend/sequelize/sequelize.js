@@ -19,7 +19,7 @@ sequelize
   .catch((error) => {
     console.error("Unable to connect to the database:", error);
   });
-
+//recupere les models
 const modelDefiners = [
   require("./models/user.model"),
   require("./models/profil.model"),
@@ -28,16 +28,16 @@ const modelDefiners = [
   require("./models/liked.model"),
 ];
 
-// We define all models according to their files.
+// défini les models
 for (const modelDefiner of modelDefiners) {
   modelDefiner(sequelize);
 }
 
-// We execute any extra setup after the models are defined, such as adding associations.
+// exécution de toutes configuration supplémentaire après la définition des modèles, comme l'ajout d'associations .
 applyExtraSetup(sequelize);
 
+//
 console.log("sequelize sync => synchronisation des tables ");
 sequelize.sync();
 
-// We export the sequelize connection instance to be used around our app.
 module.exports = sequelize;

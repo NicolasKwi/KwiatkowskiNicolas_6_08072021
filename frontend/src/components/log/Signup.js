@@ -1,20 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
-import {setProfilUser} from "../utils";
-
+import { setProfilUser } from "../utils";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-
+  // envoie une souscription utilisateur
   const handleSignup = (e) => {
     e.preventDefault();
     const signupError = document.querySelector(".signup_error");
     axios({
       method: "post",
       url: `${process.env.REACT_APP_API_URL}/api/auth/signup`,
-      // withCredentials: true,
       data: {
         email: email,
         password: password,
@@ -25,16 +23,15 @@ const Signup = () => {
           signupError.innerHTML = "Profil non trouvé";
         } else {
           //memorise le profil
-          setProfilUser(res.data.profil);        
+          setProfilUser(res.data.profil);
           window.location = "/acceuil";
         }
       })
       .catch((err) => {
         if (err.response.data.error) {
-          signupError.innerHTML = err.response.data.error;
-          console.log(err.response.data.error);
+          signupError.innerHTML = err.response.data.error;          
         } else {
-          console.log(err);
+          alert(err);
         }
       });
   };
