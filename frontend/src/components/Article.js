@@ -101,6 +101,7 @@ const Article = ({ post }) => {
       {isEdit ? (
         <div className="edition_article">
           <textarea
+            rows="5"
             defaultValue={postContentmodif}
             onChange={(e) => setPostContentmodif(e.target.value)}
           ></textarea>
@@ -112,7 +113,7 @@ const Article = ({ post }) => {
                 alt="Fichier séléctioné"
               />
             )}
-            <div className='image_modif'>
+            <div className="image_modif">
               <input
                 type="file"
                 id={`image_${post.article.id}`}

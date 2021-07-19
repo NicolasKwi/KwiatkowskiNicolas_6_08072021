@@ -36,7 +36,7 @@ const Articles = () => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        alert(err);
       });
   }, []);
 

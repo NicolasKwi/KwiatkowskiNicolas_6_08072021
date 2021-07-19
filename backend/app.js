@@ -1,5 +1,4 @@
 const express = require("express");
-const sequelize = require('./sequelize/sequelize');
 require('dotenv').config()
 //securiter
 const rateLimit = require("express-rate-limit");
@@ -13,11 +12,6 @@ const authRoutes = require("./routes/authentification");
 const path = require("path");
 
 const app = express();
-
-sequelize.authenticate().then( console.log('Connection Mysql etablie avec success')).catch( (error)=>{
-  console.error('Unable to connect to the database:', error);
-})
-
 
 //
 app.use((req, res, next) => {

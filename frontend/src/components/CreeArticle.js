@@ -70,7 +70,7 @@ const CreeArticle = () => {
         onChange={(e) => setPostContent(e.target.value)}
       ></textarea>
       <div className="cree_postimage">
-        {postImg && <img src={postImg} alt="affichage de la phot de la selection" />}
+        {postImg && <img src={postImg} alt="affichage de la photo de la selection" />}
         <div className="postimage_bouttons">
           <label className="label_inputfile" htmlFor="imagecree">
             Choissez une image :

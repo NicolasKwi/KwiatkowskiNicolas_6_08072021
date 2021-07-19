@@ -6,14 +6,11 @@ module.exports = (sequelize) => {
   sequelize.define("profil", {
     // The following specification of the 'id' attribute could be omitted
     // since it is the default.
-    id: {
-      //   allowNull: false,
+    id: {     
       primaryKey: true,
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
-      //   validate: {
-      //     notNull: true
-      //   }
+    
     },  
     pseudonyme: {
       allowNull: true,

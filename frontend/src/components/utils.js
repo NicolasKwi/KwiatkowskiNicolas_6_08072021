@@ -43,8 +43,7 @@ export const isEmpty = (value) => {
 export const getProfilUser = () => {
   if (isEmpty(localStorage.getItem("profil"))) {
     return null;
-  } else {
-   
+  } else {   
     return JSON.parse(localStorage.getItem("profil"));
   }
 };
