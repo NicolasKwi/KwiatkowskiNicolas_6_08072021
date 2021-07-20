@@ -27,9 +27,10 @@ const Navigation = () => {
         <img src="./img/icons/user.svg" alt="Icon utilisateur" />
         Utilisateur
       </NavLink>
+      <div className="espace_nav"></div>
       <NavLink exact to="/" onClick={() => delProfilUser()}>
         <img src="./img/icons/logout.svg" alt="Icon déconnetion" />
-        {`Déconnection - ${psedoProfil}`}
+        {`Déconnexion - ${psedoProfil}`}
       </NavLink>
     </div>
   );
