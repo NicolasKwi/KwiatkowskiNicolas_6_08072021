@@ -42,7 +42,7 @@ const Articles = () => {
   return (
     <div className="articles">
       {aucunArticle ? (
-        <p>{messAucun}</p>
+        <p className='articles_aucun_trouver'>{messAucun}</p>
       ) : (
         <ul>
           {listArticles.map((post) => (

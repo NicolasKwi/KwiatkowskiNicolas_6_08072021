@@ -121,7 +121,7 @@ exports.getAllMessagesForOnePost = (req, res, next) => {
   models.message
     .findAll({
       where: { articleId: req.params.id },
-      order: [["createdAt", "DESC"]],
+      order: [["createdAt", "ASC"]],
     })
     .then(async (messages) => {
       let listMessages = [];
